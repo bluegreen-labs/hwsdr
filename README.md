@@ -32,7 +32,7 @@ documentation please use:
 
 ``` r
 if(!require(devtools)){install.packages("devtools")}
-devtools::install_github("bluegreen-labs/daymetr", build_vignettes = TRUE)
+devtools::install_github("bluegreen-labs/hwsdr", build_vignettes = TRUE)
 library("hwsdr")
 ```
 
