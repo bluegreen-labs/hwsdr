@@ -5,7 +5,7 @@
 \title{Function to geographically subset 'Daymet' regions exceeding tile limits}
 \usage{
 ws_subset(
-  sitename = "HWSD",
+  site = "HWSD",
   location = c(34, -81, 32, -80),
   param = "ALL",
   path = tempdir(),
@@ -14,7 +14,7 @@ ws_subset(
 )
 }
 \arguments{
-\item{sitename}{sitename for the extracted location}
+\item{site}{sitename for the extracted location}
 
 \item{location}{location of a bounding box c(lat, lon, lat, lon) defined
 by a top left and bottom-right coordinates, a single location (lat, lon)

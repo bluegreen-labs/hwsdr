@@ -1,6 +1,6 @@
 #' Function to geographically subset 'Daymet' regions exceeding tile limits
 #'
-#' @param sitename sitename for the extracted location
+#' @param site sitename for the extracted location
 #' @param location location of a bounding box c(lat, lon, lat, lon) defined
 #' by a top left and bottom-right coordinates, a single location (lat, lon)
 #' or a data frame with various locations listed (site, lat, lon)
@@ -21,7 +21,7 @@
 #' }
 
 ws_subset <- function(
-  sitename = "HWSD",
+  site = "HWSD",
   location = c(34, -81, 32, -80),
   param = "ALL",
   path = tempdir(),
