@@ -40,29 +40,36 @@ library("hwsdr")
 
 ### Single pixel location download
 
-Get world soil values for a single site using the following format
+Get world soil values for a single site using the following format, specifying coordinates as a pair of latitude, longitude coordinates.
 
 ``` r
-ws_subset(
-		site = "Oak Ridge National Laboratories",
-                lat = 36.0133,
-                lon = -84.2625,
-                start = 1980,
-                end = 2010,
-                internal = TRUE)
+  data <- ws_subset(
+    site = "HWSD",
+    location = c(34, -81),
+    param = "ALL"
+  )
 ```
 
-#### *netCDF subset (ncss) data*
+#### Gridded data
+
+You can grab gridded data by specifying a bounding box c(lat, lon, lat, lon) defined by a top left and bottom-right coordinates.
 
 ``` r
-ws_subset(location = c(36.61,-85.37,33.57,-81.29),
-                     start = 1980,
-                     end = 1980,
-                     param = "tmin")
+  data <- ws_subset(
+    site = "HWSD",
+    location = c(34, -81, 32, -80),
+    param = "ALL",
+    path = tempdir(),
+    internal = TRUE
+  )
 ```
+##  Parameters
+
+By default all parameters are downloaded, a complete list of the individual parameters is provided on the [ORNL webpage](https://daac.ornl.gov/SOILS/guides/HWSD.html)
 
 ## Citation
 
+...
 
 ## Acknowledgements
 
