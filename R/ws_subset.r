@@ -7,7 +7,6 @@
 #' @param param soil parameters to provide, the default setting is ALL, this 
 #' will download all available soil parameters.Check
 #' https://daac.ornl.gov/SOILS/guides/HWSD.html for parameter descriptions.
-#' @param silent suppress the verbose output
 #' @param path path where to download the data to (only applicable to
 #' spatial data)
 #' @param internal do not store the data on disk
@@ -25,7 +24,6 @@ ws_subset <- function(
   location = c(34, -81, 32, -80),
   param = "ALL",
   path = tempdir(),
-  silent = FALSE,
   internal = TRUE
 ){
   # CRAN file policy
@@ -55,11 +53,6 @@ ws_subset <- function(
   # ALL list all available parameters for each frequency
   if (any(grepl("ALL", toupper(param)))) {
       param <- c('T_GRAVEL','S_GRAVEL')
-  }
-  
-  # provide some feedback
-  if(!silent){
-    message('Subsetting HWSD data!\n')
   }
   
   ws_stack <- 
@@ -103,7 +96,7 @@ ws_subset <- function(
         ws_stack,
         filename = file.path(path,
                              sprintf("%s.tif",
-                                     sitename)),
+                                     site)),
         format = "GTiff",
         overwrite = TRUE)    
     )

@@ -9,7 +9,6 @@ ws_subset(
   location = c(34, -81, 32, -80),
   param = "ALL",
   path = tempdir(),
-  silent = FALSE,
   internal = TRUE
 )
 }
@@ -26,8 +25,6 @@ https://daac.ornl.gov/SOILS/guides/HWSD.html for parameter descriptions.}
 
 \item{path}{path where to download the data to (only applicable to
 spatial data)}
-
-\item{silent}{suppress the verbose output}
 
 \item{internal}{do not store the data on disk}
 }
