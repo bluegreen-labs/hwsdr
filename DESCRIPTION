@@ -1,0 +1,41 @@
+Package: hwsdr
+Title: Interface to the 'HWSD' Web Services
+Version: 1.0
+Authors@R: c(person(
+               family = "Hufkens",
+               given = "Koen",
+               email = "koen.hufkens@gmail.com",
+               role = c("aut", "cre"),
+               comment = c(ORCID = "0000-0002-5070-8109")))
+Description: Programmatic interface to the Harmozied World Soil Database 
+    'HWSD' web services (<https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247>).
+    Allows for easy downloads of 'HWSD' soil data directly to your R workspace 
+    or your computer. Routines for both single pixel data downloads and
+    gridded (netCDF) data are provided.
+Depends:
+    R (>= 3.6)
+Imports:
+    sf,
+    raster,
+    httr,
+    tidyr,
+    tibble,
+    tools,
+    utils
+License: AGPL-3
+LazyData: true
+ByteCompile: true
+RoxygenNote: 7.1.1
+Suggests:
+    ggplot2,
+    dplyr,
+    rgdal,
+    ncdf4,
+    knitr,
+    markdown,
+    rmarkdown,
+    covr,
+    testthat
+VignetteBuilder: knitr
+URL: https://github.com/bluegreen-labs/hwsdr
+BugReports: https://github.com/bluegreen-labs/hwsdr/issues

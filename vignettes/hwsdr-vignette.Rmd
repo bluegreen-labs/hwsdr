@@ -1,0 +1,53 @@
+---
+title: "hwsdr functionality"
+author: "Koen Hufkens"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    md_extensions: [ 
+      "-autolink_bare_uris" 
+    ]
+vignette: >
+  %\VignetteIndexEntry{hwsdr functionality}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+# load the library
+library(ncdf4)
+library(raster)
+library(sf)
+library(dplyr)
+library(ggplot2)
+
+```
+A programmatic interface to the [Daymet web services](https://daymet.ornl.gov). Allows for easy downloads of Daymet climate data directly to your R workspace or your computer. Routines for both single pixel data downloads and gridded (netCDF) data are provided. Below you find a number of worked example on mostly smaller datasets to illustrate the utility of the package.
+
+## Downloading single pixel data
+
+A common application of daymet data is the extraction of local climate data, at a given location. This data will be extracted from a pixel within the gridded daymet dataset corresponding to a location provided in latitude / longitude format. You can download a dataset for a single location using the following format:
+
+```{r eval = FALSE}
+df <- ws_subset(site = "Oak Ridge National Laboratories",
+                lat = 36.0133,
+                lon = -84.2625,
+                start = 2000,
+                end = 2010,
+                internal = TRUE,
+                simplify = TRUE) # return tidy data !!
+```
+
+I hope the vignette provided you with an overview of the capabilities of the daymetr package. Please report all bugs or feature requests on the project's github page. If you found the software useful in your work please use the below reference to cite the package.
+
+## Reference
+
+## Acknowledgements
+
+This project was is supported by .
