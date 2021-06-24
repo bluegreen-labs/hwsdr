@@ -3,6 +3,7 @@ context("test hwsd routines")
 test_that("checks...",{
   skip_on_cran()
   
+  # check normal download to R session
   data <- ws_subset(
     site = "HWSD",
     location = c(34, -81, 32, -80),
@@ -13,6 +14,7 @@ test_that("checks...",{
   
   expect_s4_class(data, "Raster")
   
+  # check download to disk
   data <- ws_subset(
     site = "HWSD",
     location = c(34, -81, 32, -80),
@@ -21,7 +23,9 @@ test_that("checks...",{
     internal = FALSE
   )
   
+  expect_true(file.exists(file.path(tempdir(), "HWSD.tif")))
   
+  # check point extraction
   data <- ws_subset(
     site = "HWSD",
     location = c(34, -81),
