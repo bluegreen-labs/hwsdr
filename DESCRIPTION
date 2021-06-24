@@ -18,19 +18,14 @@ Imports:
     sf,
     raster,
     httr,
-    tidyr,
-    tibble,
-    tools,
-    utils
+    rgdal,
+    ncdf4
 License: AGPL-3
 LazyData: true
 ByteCompile: true
 RoxygenNote: 7.1.1
+Encoding: UTF-8
 Suggests:
-    ggplot2,
-    dplyr,
-    rgdal,
-    ncdf4,
     knitr,
     markdown,
     rmarkdown,

@@ -47,7 +47,22 @@ ws_get <- function(
                         path = file,
                         overwrite = TRUE))
   
-  # error / stop on 400 error
+  # on error check if var settings need
+  # to be converted to lower
+  if(httr::http_error(status)){
+    
+    query$var <- tolower(query$var)
+    
+    # download data, force binary data mode
+    status <- httr::GET(url = url,
+                        query = query,
+                        httr::write_disk(
+                          path = file,
+                          overwrite = TRUE))
+  }
+  
+  # if after that the query is still bad
+  # return NULL
   if(httr::http_error(status)){
     
     # report error (don't fail)

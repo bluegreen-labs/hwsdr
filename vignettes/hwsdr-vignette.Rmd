@@ -24,8 +24,6 @@ knitr::opts_chunk$set(
 library(ncdf4)
 library(raster)
 library(sf)
-library(dplyr)
-library(ggplot2)
 
 ```
 A programmatic interface to the [Daymet web services](https://daymet.ornl.gov). Allows for easy downloads of Daymet climate data directly to your R workspace or your computer. Routines for both single pixel data downloads and gridded (netCDF) data are provided. Below you find a number of worked example on mostly smaller datasets to illustrate the utility of the package.

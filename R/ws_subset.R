@@ -52,7 +52,7 @@ ws_subset <- function(
   # check the parameters we want to download in case of
   # ALL list all available parameters for each frequency
   if (any(grepl("ALL", toupper(param)))) {
-      param <- c('T_GRAVEL','S_GRAVEL')
+      param <- c('T_GRAVEL','S_GRAVEL','T_OC','S_C')
   }
   
   ws_stack <- 
@@ -62,6 +62,11 @@ ws_subset <- function(
         param = par,
         path = tempdir())
       })
+  
+  if(all(is.null(ws_stack))){
+    warning("No data retrieved!")
+    return(invisible())
+  }
   
   # convert the nested list to a nice
   # raster stack
