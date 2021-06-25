@@ -11,7 +11,7 @@ Description: Programmatic interface to the Harmonized World Soil Database
     'HWSD' web services (<https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247>).
     Allows for easy downloads of 'HWSD' soil data directly to your R workspace 
     or your computer. Routines for both single pixel data downloads and
-    grided data are provided.
+    gridded data are provided.
 Depends:
     R (>= 3.6)
 Imports:

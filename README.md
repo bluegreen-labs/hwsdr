@@ -58,11 +58,11 @@ You can download gridded data by specifying a bounding box c(lat, lon, lat, lon)
 ```
 ##  Parameters
 
-By default all parameters are downloaded, a complete list of the individual parameters is provided on the [ORNL webpage](https://daac.ornl.gov/SOILS/guides/HWSD.html). Alternatively you may find a similar list of data in the `hwsd_meta_data` dataset as provided by the package.
+By default all parameters are downloaded, a complete list of the individual parameters is provided on the ORNL webpage (<https://daac.ornl.gov/SOILS/guides/HWSD.html>). Alternatively you may find a similar list of data in the `hwsd_meta_data` dataset as provided by the package.
 
 ## References
 
-Wieder, W.R., J. Boehnert, G.B. Bonan, and M. Langseth. 2014. Regridded Harmonized World Soil Database v1.2. Data set. Available on-line [https://daac.ornl.gov] from Oak Ridge National Laboratory Distributed Active Archive Center, Oak Ridge, Tennessee, USA. http://dx.doi.org/10.3334/ORNLDAAC/1247 . 
+Wieder, W.R., J. Boehnert, G.B. Bonan, and M. Langseth. 2014. Regridded Harmonized World Soil Database v1.2. Data set. Available on-line from Oak Ridge National Laboratory Distributed Active Archive Center, Oak Ridge, Tennessee, USA. (<https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247>).
 
 ## Acknowledgements
 
