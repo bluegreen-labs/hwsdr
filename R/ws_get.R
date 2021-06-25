@@ -1,13 +1,15 @@
 #' Basic HWSD download function
 #' 
-#' Downloads HWSD data, wrapped by ws_subset() for convenient use
+#' Downloads HWSD data, wrapped by \code{ws_subset()} for convenient use. This is a
+#' function mainly for internal use but exposed so people can benefit from
+#' it in other (more flexible) setups if so desired.
 #' 
 #' @param location file with several site locations and coordinates
 #' in a comma delimited format: site, latitude, longitude
 #' @param param which soil parameter to use
 #' @param path default is tempdir()
 #' @param internal return an internal raster or just retain values in the path
-#' @return HWSD data
+#' @return HWSD data as a raster file
 #' @export
 
 ws_get <- function(

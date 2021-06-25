@@ -17,8 +17,10 @@ in a comma delimited format: site, latitude, longitude}
 \item{internal}{return an internal raster or just retain values in the path}
 }
 \value{
-HWSD data
+HWSD data as a raster file
 }
 \description{
-Downloads HWSD data, wrapped by ws_subset() for convenient use
+Downloads HWSD data, wrapped by \code{ws_subset()} for convenient use. This is a
+function mainly for internal use but exposed so people can benefit from
+it in other (more flexible) setups if so desired.
 }

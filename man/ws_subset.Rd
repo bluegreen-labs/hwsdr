@@ -44,6 +44,26 @@ disk.
 \examples{
 
 \dontrun{
-print("test")
+ # extract sand fraction values
+ # for a point location
+ values <- ws_subset(
+    site = "HWSD",
+    location = c(34, -81),
+    param = "T_SAND"
+   )
+   
+ print(values)
+ 
+ # Download a soil fraction map
+ # of sand for a given bounding box
+ t_sand <- ws_subset(
+    site = "HWSD",
+    location = c(32, -81, 34, -80),
+    param = "T_SAND",
+    path = tempdir(),
+    internal = TRUE
+   )
+   
+ raster::plot(t_sand)
 }
 }
