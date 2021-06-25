@@ -2,7 +2,7 @@
 % Please edit documentation in R/ws_subset.R
 \name{ws_subset}
 \alias{ws_subset}
-\title{Function to geographically subset 'Daymet' regions exceeding tile limits}
+\title{Subset ORNL DAAC HWSD data}
 \usage{
 ws_subset(
   location = c(32, -81, 34, -80),
@@ -33,10 +33,13 @@ spatial data)}
 queries to avoid bouncing because of rate limitations}
 }
 \value{
-netCDF data, or a data frame with HWSD soil information
+Local geotiff data, or a data frame with HWSD soil information
 }
 \description{
-Function to geographically subset 'Daymet' regions exceeding tile limits
+Subset function to query pixel or spatial data from the
+ORNL DAAC HWSD THREDDS server. Returns a tidy data frame
+for point locations or raster data to the workspace or
+disk.
 }
 \examples{
 

@@ -1,5 +1,10 @@
-#' Function to geographically subset 'Daymet' regions exceeding tile limits
+#' Subset ORNL DAAC HWSD data
 #'
+#' Subset function to query pixel or spatial data from the
+#' ORNL DAAC HWSD THREDDS server. Returns a tidy data frame
+#' for point locations or raster data to the workspace or
+#' disk.
+#' 
 #' @param site sitename for the extracted location
 #' @param location location of a bounding box c(lat, lon, lat, lon) defined
 #' by a bottom-left and top-right coordinates, a single location (lat, lon)
@@ -12,7 +17,7 @@
 #' @param internal do not store the data on disk
 #' @param rate request rate in seconds, determines how long to wait between 
 #'  queries to avoid bouncing because of rate limitations
-#' @return netCDF data, or a data frame with HWSD soil information
+#' @return Local geotiff data, or a data frame with HWSD soil information
 #' 
 #' @export
 #' @examples
