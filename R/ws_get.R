@@ -17,16 +17,15 @@ ws_get <- function(
   internal = TRUE
 ){
 
-  
+  # grab meta-data from package
+  meta_data <- hwsdr::hwsd_meta_data
   
   # check parameter
-  if(hwsd_meta_data$subset[hwsd_meta_data$parameter == param] != ""){
-    var <- hwsd_meta_data$subset[hwsd_meta_data$parameter == param]
+  if(meta_data$subset[meta_data$parameter == param] != ""){
+    var <- meta_data$subset[meta_data$parameter == param]
   } else {
     var <- param
   }
-  
-  print(var)
   
   # formulate query to pass to httr
   query <- list(
@@ -73,8 +72,6 @@ ws_get <- function(
                         httr::timeout(2))
   }
   
-  print(status)
-  
   # if after that the query is still bad
   # return NULL
   if(httr::http_error(status)){
@@ -85,7 +82,6 @@ ws_get <- function(
     
   } else {
     r <- raster::raster(file)
-    #raster::plot(r)
     return(r)
   }
 }

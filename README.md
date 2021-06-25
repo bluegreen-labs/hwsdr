@@ -7,15 +7,6 @@ Programmatic interface to the Harmozied World Soil Database 'HWSD' web services 
 
 ## Installation
 
-### stable release
-
-To install the current stable release use a CRAN repository:
-
-``` r
-install.packages("hwsdr")
-library("hwsdr")
-```
-
 ### development release
 
 To install the development releases of the package run the following
@@ -65,17 +56,13 @@ You can grab gridded data by specifying a bounding box c(lat, lon, lat, lon) def
 ```
 ##  Parameters
 
-By default all parameters are downloaded, a complete list of the individual parameters is provided on the [ORNL webpage](https://daac.ornl.gov/SOILS/guides/HWSD.html)
+By default all parameters are downloaded, a complete list of the individual parameters is provided on the [ORNL webpage](https://daac.ornl.gov/SOILS/guides/HWSD.html). Alternatively you may find a similar list of data in the `hwsd_meta_data` dataset as provided by the package.
 
 ## Citation
 
-Software:
-
-Data:
 
 Wieder, W.R., J. Boehnert, G.B. Bonan, and M. Langseth. 2014. Regridded Harmonized World Soil Database v1.2. Data set. Available on-line [https://daac.ornl.gov] from Oak Ridge National Laboratory Distributed Active Archive Center, Oak Ridge, Tennessee, USA. http://dx.doi.org/10.3334/ORNLDAAC/1247 . 
 
 ## Acknowledgements
 
-This project was supported by the ....
-
+This project was supported by the Schmidt Futures Initiative Land Ecosystem Models based On New Theory, obseRvations, and ExperimEnts (LEMONTREE) project.

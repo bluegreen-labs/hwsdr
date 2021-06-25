@@ -27,8 +27,20 @@ ws_subset <- function(
   param = "ALL",
   path = tempdir(),
   internal = TRUE,
-  rate = 10
+  rate = 0.5
 ){
+  
+  # grab meta-data from package
+  meta_data <- hwsdr::hwsd_meta_data
+  
+  if(param != "ALL" & !(param %in% meta_data$parameter)){
+    stop("Soil parameter is not valid!")
+  }
+  
+  # check coordinate length
+  if (!(length(location) == 2 || length(location) == 4)){
+    stop("Location parameters of insufficient length, check coordinates!")
+  }
   
   # check if there are enough coordinates specified
   if (length(location)!=4){
@@ -52,8 +64,8 @@ ws_subset <- function(
   if (any(grepl("ALL", toupper(param)))) {
     # Use meta-data file to select all but the CLM
     # parameters when calling ALL
-    param <- hwsd_meta_data$parameter[
-        hwsd_meta_data$parameter != "HWSD_SOIL_CLM_RES"
+    param <- meta_data$parameter[
+        meta_data$parameter != "HWSD_SOIL_CLM_RES"
         ]
   }
   
@@ -67,7 +79,8 @@ ws_subset <- function(
         location = location,
         param = par,
         path = tempdir())
-      })
+      }
+    )
   
   if(all(is.null(ws_stack))){
     warning("No data retrieved!")
