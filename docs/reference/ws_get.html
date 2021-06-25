@@ -40,7 +40,9 @@
 
 
 <meta property="og:title" content="Basic HWSD download function — ws_get" />
-<meta property="og:description" content="Downloads HWSD data, wrapped by ws_subset() for convenient use" />
+<meta property="og:description" content="Downloads HWSD data, wrapped by ws_subset() for convenient use. This is a
+function mainly for internal use but exposed so people can benefit from
+it in other (more flexible) setups if so desired." />
 
 
 
@@ -129,7 +131,9 @@
     </div>
 
     <div class="ref-description">
-    <p>Downloads HWSD data, wrapped by ws_subset() for convenient use</p>
+    <p>Downloads HWSD data, wrapped by <code><a href='ws_subset.html'>ws_subset()</a></code> for convenient use. This is a
+function mainly for internal use but exposed so people can benefit from
+it in other (more flexible) setups if so desired.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ws_get</span><span class='op'>(</span><span class='va'>location</span>, <span class='va'>param</span>, <span class='va'>path</span>, internal <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
@@ -158,7 +162,7 @@ in a comma delimited format: site, latitude, longitude</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>HWSD data</p>
+    <p>HWSD data as a raster file</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
