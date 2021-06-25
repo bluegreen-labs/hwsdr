@@ -2,7 +2,7 @@
 #'
 #' @param site sitename for the extracted location
 #' @param location location of a bounding box c(lat, lon, lat, lon) defined
-#' by a top left and bottom-right coordinates, a single location (lat, lon)
+#' by a bottom-left and top-right coordinates, a single location (lat, lon)
 #' or a data frame with various locations listed (site, lat, lon)
 #' @param param soil parameters to provide, the default setting is ALL, this 
 #' will download all available soil parameters.Check
@@ -22,19 +22,19 @@
 #' }
 
 ws_subset <- function(
+  location = c(32, -81, 34, -80),
   site = "HWSD",
-  location = c(34, -81, 32, -80),
   param = "ALL",
   path = tempdir(),
   internal = TRUE,
-  rate = 0.5
+  rate = 0.1
 ){
   
   # grab meta-data from package
   meta_data <- hwsdr::hwsd_meta_data
   
-  if(param != "ALL" & !(param %in% meta_data$parameter)){
-    stop("Soil parameter is not valid!")
+  if(param != "ALL" && any(!(param %in% meta_data$parameter))){
+    stop("One or more soil parameters are not valid!")
   }
   
   # check coordinate length
@@ -49,9 +49,9 @@ ws_subset <- function(
     # pad the point locations
     # as the query needs a bounding box
     location <- c(
-      location[1] + 0.05,
-      location[2] - 0.05,
       location[1] - 0.05,
+      location[2] - 0.05,
+      location[1] + 0.05,
       location[2] + 0.05
     )
     
@@ -84,7 +84,7 @@ ws_subset <- function(
   
   if(all(is.null(ws_stack))){
     warning("No data retrieved!")
-    return(invisible())
+    return(NULL)
   }
   
   # convert the nested list to a nice
@@ -106,7 +106,18 @@ ws_subset <- function(
     # extract values
     values <- raster::extract(ws_stack, p)
     
-    return(data.frame(values))
+    # convert to tidy data
+    values <- data.frame(
+      site = site,
+      parameter = param,
+      latitude = location[1],
+      longitude = location[2], 
+      value = t(values),
+      row.names = NULL
+    )
+    
+    # return data
+    return(values)
   }
 
   # if internal return the raster stack

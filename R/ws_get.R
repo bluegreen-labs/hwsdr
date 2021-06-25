@@ -30,10 +30,10 @@ ws_get <- function(
   # formulate query to pass to httr
   query <- list(
     "var" = var,
-    "north" = location[1],
+    "south" = location[1],
     "west" = location[2],
     "east" = location[4],
-    "south" = location[3],
+    "north" = location[3],
     "disableProjSubset" = "on",
     "horizStride"= 1,
     "accept"="netcdf4"
@@ -68,8 +68,7 @@ ws_get <- function(
                         query = query,
                         httr::write_disk(
                           path = file,
-                          overwrite = TRUE),
-                        httr::timeout(2))
+                          overwrite = TRUE))
   }
   
   # if after that the query is still bad
