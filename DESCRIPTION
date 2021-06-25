@@ -26,6 +26,7 @@ ByteCompile: true
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 Suggests:
+    magrittr,
     knitr,
     markdown,
     rmarkdown,

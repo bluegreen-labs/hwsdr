@@ -3,7 +3,7 @@
 [![R-CMD-check](https://github.com/bluegreen-labs/hwsdr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bluegreen-labs/hwsdr/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/bluegreen-labs/hwsdr/branch/main/graph/badge.svg?token=GQ2TENDJP6)](https://codecov.io/gh/bluegreen-labs/hwsdr)
 
-Programmatic interface to the Harmozied World Soil Database 'HWSD' web services (<https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247>). Allows for easy downloads of 'HWSD' soil data directly to your R workspace or your computer. Routines for both single pixel data downloads and gridded (netCDF) data are provided.
+Programmatic interface to the Harmonized World Soil Database 'HWSD' web services (<https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247>). Allows for easy downloads of 'HWSD' soil data directly to your R workspace or your computer. Routines for both single pixel data downloads and gridded data are provided.
 
 ## Installation
 
@@ -31,25 +31,25 @@ library("hwsdr")
 
 ### Single pixel location download
 
-Get world soil values for a single site using the following format, specifying coordinates as a pair of latitude, longitude coordinates.
+Get world soil values for a single site using the following format, specifying coordinates as a pair of latitude, longitude coordinates. Here all available soil layers are queried.
 
 ``` r
-  data <- ws_subset(
+  all <- ws_subset(
     site = "HWSD",
     location = c(34, -81),
     param = "ALL"
   )
 ```
 
-#### Gridded data
+### Gridded data
 
-You can grab gridded data by specifying a bounding box c(lat, lon, lat, lon) defined by a top left and bottom-right coordinates.
+You can download gridded data by specifying a bounding box c(lat, lon, lat, lon) defined by a bottom left and top right coordinates. Here the call only extracts the top soil fraction of sand (% weight).
 
 ``` r
-  data <- ws_subset(
+  t_sand <- ws_subset(
     site = "HWSD",
-    location = c(34, -81, 32, -80),
-    param = "ALL",
+    location = c(32, -81, 34, -80),
+    param = "T_SAND",
     path = tempdir(),
     internal = TRUE
   )
@@ -58,8 +58,7 @@ You can grab gridded data by specifying a bounding box c(lat, lon, lat, lon) def
 
 By default all parameters are downloaded, a complete list of the individual parameters is provided on the [ORNL webpage](https://daac.ornl.gov/SOILS/guides/HWSD.html). Alternatively you may find a similar list of data in the `hwsd_meta_data` dataset as provided by the package.
 
-## Citation
-
+## References
 
 Wieder, W.R., J. Boehnert, G.B. Bonan, and M. Langseth. 2014. Regridded Harmonized World Soil Database v1.2. Data set. Available on-line [https://daac.ornl.gov] from Oak Ridge National Laboratory Distributed Active Archive Center, Oak Ridge, Tennessee, USA. http://dx.doi.org/10.3334/ORNLDAAC/1247 . 
 
