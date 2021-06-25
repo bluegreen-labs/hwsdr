@@ -9,7 +9,8 @@ ws_subset(
   location = c(34, -81, 32, -80),
   param = "ALL",
   path = tempdir(),
-  internal = TRUE
+  internal = TRUE,
+  rate = 0.5
 )
 }
 \arguments{
@@ -27,6 +28,9 @@ https://daac.ornl.gov/SOILS/guides/HWSD.html for parameter descriptions.}
 spatial data)}
 
 \item{internal}{do not store the data on disk}
+
+\item{rate}{request rate in seconds, determines how long to wait between 
+queries to avoid bouncing because of rate limitations}
 }
 \value{
 netCDF data, or a data frame with HWSD soil information

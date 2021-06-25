@@ -6,9 +6,9 @@
 #' 
 #' @format data.frame
 #' \describe{
-#'   \item{parameter}{tile ID number}
-#'   \item{subset}{minimum longitude}
-#'   \item{description}{maximum longitude}
-#'   \item{units}{minimum latitude}
+#'   \item{parameter}{parameter names used in THREDDS server call}
+#'   \item{subset}{bands within a data product (only for CLM data)}
+#'   \item{description}{general description of the variable}
+#'   \item{units}{units of the variable}
 #' }
 "hwsd_meta_data"

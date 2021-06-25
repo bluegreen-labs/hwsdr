@@ -17,16 +17,27 @@ ws_get <- function(
   internal = TRUE
 ){
 
+  
+  
+  # check parameter
+  if(hwsd_meta_data$subset[hwsd_meta_data$parameter == param] != ""){
+    var <- hwsd_meta_data$subset[hwsd_meta_data$parameter == param]
+  } else {
+    var <- param
+  }
+  
+  print(var)
+  
   # formulate query to pass to httr
   query <- list(
-    "var" = param,
+    "var" = var,
     "north" = location[1],
     "west" = location[2],
     "east" = location[4],
     "south" = location[3],
     "disableProjSubset" = "on",
     "horizStride"= 1,
-    "accept"="netcdf"
+    "accept"="netcdf4"
   )
   
   # create url string (varies per product / param)
@@ -58,8 +69,11 @@ ws_get <- function(
                         query = query,
                         httr::write_disk(
                           path = file,
-                          overwrite = TRUE))
+                          overwrite = TRUE),
+                        httr::timeout(2))
   }
+  
+  print(status)
   
   # if after that the query is still bad
   # return NULL

@@ -10,6 +10,8 @@
 #' @param path path where to download the data to (only applicable to
 #' spatial data)
 #' @param internal do not store the data on disk
+#' @param rate request rate in seconds, determines how long to wait between 
+#'  queries to avoid bouncing because of rate limitations
 #' @return netCDF data, or a data frame with HWSD soil information
 #' 
 #' @export
@@ -24,13 +26,9 @@ ws_subset <- function(
   location = c(34, -81, 32, -80),
   param = "ALL",
   path = tempdir(),
-  internal = TRUE
+  internal = TRUE,
+  rate = 10
 ){
-  # CRAN file policy
-  if (identical(path, tempdir())){
-    message("Data is stored in tempdir(), please set the path parameter
-            for alternate locations.")
-  }
   
   # check if there are enough coordinates specified
   if (length(location)!=4){
@@ -52,11 +50,19 @@ ws_subset <- function(
   # check the parameters we want to download in case of
   # ALL list all available parameters for each frequency
   if (any(grepl("ALL", toupper(param)))) {
-      param <- c('T_GRAVEL','S_GRAVEL','T_OC','S_C')
+    # Use meta-data file to select all but the CLM
+    # parameters when calling ALL
+    param <- hwsd_meta_data$parameter[
+        hwsd_meta_data$parameter != "HWSD_SOIL_CLM_RES"
+        ]
   }
   
   ws_stack <- 
     lapply(param, function(par){
+      # Wait to avoid rate limitations
+      Sys.sleep(rate)
+      
+      # get data
       ws_get(
         location = location,
         param = par,
@@ -103,7 +109,7 @@ ws_subset <- function(
                              sprintf("%s.tif",
                                      site)),
         format = "GTiff",
-        overwrite = TRUE)    
+        overwrite = TRUE)   
     )
   }
 }
