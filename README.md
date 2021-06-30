@@ -9,6 +9,15 @@ Programmatic interface to the Harmonized World Soil Database 'HWSD' web services
 
 ## Installation
 
+### stable release
+
+To install the current stable release use a CRAN repository:
+
+```r
+install.packages("hwsdr")
+library("hwsdr")
+```
+
 ### development release
 
 To install the development releases of the package run the following
