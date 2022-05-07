@@ -7,6 +7,10 @@
 
 Programmatic interface to the Harmonized World Soil Database 'HWSD' web services (<https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247>). Allows for easy downloads of 'HWSD' soil data directly to your R workspace or your computer. Routines for both single pixel data downloads and gridded data are provided.
 
+## How to cite this package in your article
+
+> Koen Hufkens. (2022). bluegreen-labs/hwsdr: CRAN release (v1.0). Zenodo. https://doi.org/10.5281/zenodo.6527648
+
 ## Installation
 
 ### stable release
