@@ -58,7 +58,7 @@ ws_subset <- function(
   # grab meta-data from package
   meta_data <- hwsdr::hwsd_meta_data
   
-  if(param != "ALL" && any(!(param %in% meta_data$parameter))){
+  if(tolower(param) != "all" & any(!(param %in% meta_data$parameter))){
     stop("One or more soil parameters are not valid!")
   }
   

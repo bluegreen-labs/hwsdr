@@ -89,7 +89,7 @@ test_that("faulty param (multiples)",{
    ws_subset(
       site = "HWSD",
       location = c(34, -81),
-      param = c("T_SAND","T_SIT")
+      param = c("T_SAND", "T_SIT")
     )
   )
 })
