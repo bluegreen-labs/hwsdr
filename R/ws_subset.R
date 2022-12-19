@@ -68,7 +68,7 @@ ws_subset <- function(
   }
   
   # check if there are enough coordinates specified
-  if (length(location)!=4){
+  if (length(location) != 4){
     bbox <- FALSE
     
     # pad the point locations
@@ -87,6 +87,7 @@ ws_subset <- function(
   # check the parameters we want to download in case of
   # ALL list all available parameters for each frequency
   if (any(grepl("ALL", toupper(param)))) {
+    
     # Use meta-data file to select all but the CLM
     # parameters when calling ALL
     param <- meta_data$parameter[
@@ -114,7 +115,7 @@ ws_subset <- function(
   
   # convert the nested list to a nice
   # raster stack
-  ws_stack <- raster::stack(ws_stack)
+  ws_stack <- terra::rast(ws_stack)
   
   # if only a single location is provided
   # extract the pixel values and return
@@ -129,12 +130,12 @@ ws_subset <- function(
       crs = 4326)
     
     # extract values
-    values <- raster::extract(ws_stack, p)
+    values <- terra::extract(ws_stack, p)
     
     # convert to tidy data
     values <- data.frame(
       site = site,
-      parameter = param,
+      parameter = names(values),
       latitude = location[1],
       longitude = location[2], 
       value = t(values),
@@ -152,12 +153,12 @@ ws_subset <- function(
     return(ws_stack)
   } else {
     suppressWarnings(
-      raster::writeRaster(
+      terra::writeRaster(
         ws_stack,
         filename = file.path(path,
                              sprintf("%s.tif",
                                      site)),
-        format = "GTiff",
+        gdal = c("COMPRESS=DEFLATE"),
         overwrite = TRUE)   
     )
   }

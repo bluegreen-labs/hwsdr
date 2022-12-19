@@ -1,12 +1,14 @@
 Package: hwsdr
 Title: Interface to the 'HWSD' Web Services
-Version: 1.0
+Version: 1.1
 Authors@R: c(person(
                family = "Hufkens",
                given = "Koen",
                email = "koen.hufkens@gmail.com",
                role = c("aut", "cre"),
-               comment = c(ORCID = "0000-0002-5070-8109")))
+               comment = c(ORCID = "0000-0002-5070-8109")),
+              person(given = "BlueGreen Labs",
+                role = c("cph", "fnd")))
 Description: Programmatic interface to the Harmonized World Soil Database 
     'HWSD' web services (<https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247>).
     Allows for easy downloads of 'HWSD' soil data directly to your R workspace 
@@ -16,12 +18,12 @@ Depends:
     R (>= 3.6)
 Imports:
     sf,
-    raster,
+    terra,
     httr
 License: AGPL-3
 LazyData: true
 ByteCompile: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
 Encoding: UTF-8
 Suggests:
     rgdal,

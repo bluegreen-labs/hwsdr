@@ -82,7 +82,7 @@ ws_get <- function(
     return(NULL)
     
   } else {
-    r <- raster::raster(file)
+    r <- terra::rast(file)
     return(r)
   }
 }
