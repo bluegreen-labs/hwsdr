@@ -10,7 +10,7 @@ test_that("check bbox download ",{
     internal = TRUE
   )
   
-  expect_s4_class(data, "Raster")
+  expect_s4_class(data, "SpatRaster")
 })  
 
 
@@ -80,7 +80,7 @@ test_that("test sf bbox method",{
     sf::st_bbox() %>%
     ws_subset(param = "T_SAND")
   
-  expect_s4_class(data, "Raster")
+  expect_s4_class(data, "SpatRaster")
 })
 
 test_that("faulty param (multiples)",{

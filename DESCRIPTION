@@ -26,12 +26,10 @@ ByteCompile: true
 RoxygenNote: 7.2.1
 Encoding: UTF-8
 Suggests:
-    rgdal,
     ncdf4,
     magrittr,
     knitr,
     markdown,
-    rmarkdown,
     covr,
     testthat
 VignetteBuilder: knitr

@@ -9,7 +9,7 @@ output:
     ]
 vignette: >
   %\VignetteIndexEntry{hwsdr functionality}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
   
 ---
@@ -22,11 +22,11 @@ knitr::opts_chunk$set(
 
 # load the library
 library(ncdf4)
-library(raster)
+library(terra)
 library(sf)
 library(hwsdr)
 
-t_sand <- raster::raster(system.file(
+t_sand <- terra::rast(system.file(
   package = "hwsdr",
   "extdata/t_sand.tif"))
 
@@ -74,7 +74,7 @@ You can grab gridded data by specifying a bounding box c(lat, lon, lat, lon) def
 ```
 
 ```{r}
-raster::plot(t_sand)
+terra::plot(t_sand)
 ```
 
 Alternatively you can use `sf` bounding box (`st_bbox()`) function output to define an extent over which you want to extract gridded data. The structure of the function also allows for pipes to be used.
@@ -94,5 +94,5 @@ Alternatively you can use `sf` bounding box (`st_bbox()`) function output to def
 This call gives an equivalent dataset as above, as shown in the plot.
 
 ```{r}
-raster::plot(t_sand)
+terra::plot(t_sand)
 ```
