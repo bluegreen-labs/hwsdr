@@ -23,6 +23,8 @@
 <meta name="twitter:card" content="summary">
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,12 +39,12 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="hidden-sm hidden-xs" href="https://bluegreenlabs.org">
+        <a class="external-link hidden-sm hidden-xs" href="https://bluegreenlabs.org">
           <img src="https://bluegreenlabs.org/img/logo_text_small.png" id="hexlogo" alt="bluegreen labs"></a>
-        <a class="hidden-md hidden-lg" href="https://bluegreenlabs.org">
+        <a class="external-link hidden-md hidden-lg" href="https://bluegreenlabs.org">
           <img src="https://bluegreenlabs.org/img/logo.png" id="hexlogo" alt="bluegreen labs"></a>
         <a class="navbar-brand" href="../index.html">
-           <i>hwsdr <small>v1.0</small></i>
+           <i>hwsdr <small>v1.1</small></i>
         </a>
       </div>
     </div>
@@ -50,16 +52,10 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -73,14 +69,8 @@
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-<li>
-  <a href="https://twitter.com/bluegreen_labs">
-    <span class="fab fa-twitter fa-lg"></span>
-     
-  </a>
-</li>
         <li>
-  <a href="https://github.com/bluegreen-labs/hwsdr/">
+  <a href="https://github.com/bluegreen-labs/hwsdr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -95,75 +85,87 @@
 
       
 
-      </header><script src="hwsdr-vignette_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip></h1>
+      <h1 data-toc-skip>hwsdr functionality</h1>
+                        <h4 data-toc-skip class="author">Koen
+Hufkens</h4>
             
+            <h4 data-toc-skip class="date">2022-12-19</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/bluegreen-labs/hwsdr/blob/master/vignettes/hwsdr-vignette.Rmd"><code>vignettes/hwsdr-vignette.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/bluegreen-labs/hwsdr/blob/HEAD/vignettes/hwsdr-vignette.Rmd" class="external-link"><code>vignettes/hwsdr-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>hwsdr-vignette.Rmd</code></div>
 
     </div>
 
     
     
-<table class="table">
-<colgroup><col width="5%"></colgroup>
-<tbody><tr class="odd">
-<td>title: “hwsdr functionality” author: “Koen Hufkens” date: “2021-11-21” output: rmarkdown::html_vignette: md_extensions: [ “-autolink_bare_uris”] vignette: &gt; % % %</td>
-</tr></tbody>
-</table>
-<p>Programmatic interface to the Harmonized World Soil Database ‘HWSD’ web services (<a href="https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247" class="uri">https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247</a>). Allows for easy downloads of ‘HWSD’ soil data directly to your R workspace or your computer. Routines for both single pixel data downloads and gridded data are provided.</p>
-<div id="use" class="section level2">
-<h2 class="hasAnchor">
-<a href="#use" class="anchor"></a>Use</h2>
-<div id="single-pixel-location-download" class="section level3">
-<h3 class="hasAnchor">
-<a href="#single-pixel-location-download" class="anchor"></a>Single pixel location download</h3>
-<p>Get world soil values for a single site using the following format, specifying coordinates as a pair of latitude, longitude coordinates. Here the call only extracts the top soil fraction of sand and silt (% weight) for one specific location.</p>
+<p>Programmatic interface to the Harmonized World Soil Database ‘HWSD’
+web services (<a href="https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247" class="external-link uri">https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247</a>).
+Allows for easy downloads of ‘HWSD’ soil data directly to your R
+workspace or your computer. Routines for both single pixel data
+downloads and gridded data are provided.</p>
+<div class="section level2">
+<h2 id="use">Use<a class="anchor" aria-label="anchor" href="#use"></a>
+</h2>
+<div class="section level3">
+<h3 id="single-pixel-location-download">Single pixel location download<a class="anchor" aria-label="anchor" href="#single-pixel-location-download"></a>
+</h3>
+<p>Get world soil values for a single site using the following format,
+specifying coordinates as a pair of latitude, longitude coordinates.
+Here the call only extracts the top soil fraction of sand and silt (%
+weight) for one specific location.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  <span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ws_subset.html">ws_subset</a></span><span class="op">(</span>
-    site <span class="op">=</span> <span class="st">"HWSD"</span>,
-    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">34</span>, <span class="op">-</span><span class="fl">81</span><span class="op">)</span>,
-    param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"T_SAND"</span>,<span class="st">"T_SILT"</span><span class="op">)</span>
-  <span class="op">)</span></code></pre></div>
-<p>At this location we have a top soil fraction of sand of 78% weight and a silt fraction of 12 % weight! Data are returned as tidy data frames including basic meta-data of the query for later subsetting.</p>
+<code class="sourceCode R"><span>  <span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
+<span>    site <span class="op">=</span> <span class="st">"HWSD"</span>,</span>
+<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">34</span>, <span class="op">-</span><span class="fl">81</span><span class="op">)</span>,</span>
+<span>    param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"T_SAND"</span>,<span class="st">"T_SILT"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>At this location we have a top soil fraction of sand of 78% weight
+and a silt fraction of 12 % weight! Data are returned as tidy data
+frames including basic meta-data of the query for later subsetting.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">values</span><span class="op">)</span>
-<span class="co">#&gt;   site parameter latitude longitude value</span>
-<span class="co">#&gt; 1 HWSD    T_SAND    33.95    -81.05    78</span>
-<span class="co">#&gt; 2 HWSD    T_SILT    33.95    -81.05    12</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">values</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   site parameter latitude longitude value</span></span>
+<span><span class="co">#&gt; 1 HWSD    T_SAND    33.95    -81.05    78</span></span>
+<span><span class="co">#&gt; 2 HWSD    T_SILT    33.95    -81.05    12</span></span></code></pre></div>
 </div>
-<div id="gridded-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#gridded-data" class="anchor"></a>Gridded data</h3>
-<p>You can grab gridded data by specifying a bounding box c(lat, lon, lat, lon) defined by a bottom left and top right coordinates. Here the call only extracts the top soil fraction of sand (%).</p>
+<div class="section level3">
+<h3 id="gridded-data">Gridded data<a class="anchor" aria-label="anchor" href="#gridded-data"></a>
+</h3>
+<p>You can grab gridded data by specifying a bounding box c(lat, lon,
+lat, lon) defined by a bottom left and top right coordinates. Here the
+call only extracts the top soil fraction of sand (%).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  <span class="va">t_sand</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ws_subset.html">ws_subset</a></span><span class="op">(</span>
-    site <span class="op">=</span> <span class="st">"HWSD"</span>,
-    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="op">-</span><span class="fl">81</span>, <span class="fl">34</span>, <span class="op">-</span><span class="fl">80</span><span class="op">)</span>,
-    param <span class="op">=</span> <span class="st">"T_SAND"</span>,
-    path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
-    internal <span class="op">=</span> <span class="cn">TRUE</span>
-  <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span>  <span class="va">t_sand</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
+<span>    site <span class="op">=</span> <span class="st">"HWSD"</span>,</span>
+<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="op">-</span><span class="fl">81</span>, <span class="fl">34</span>, <span class="op">-</span><span class="fl">80</span><span class="op">)</span>,</span>
+<span>    param <span class="op">=</span> <span class="st">"T_SAND"</span>,</span>
+<span>    path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    internal <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">t_sand</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">t_sand</span><span class="op">)</span></span></code></pre></div>
 <p><img src="hwsdr-vignette_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<p>Alternatively you can use <code>sf</code> bounding box (<code>st_bbox()</code>) function output to define an extent over which you want to extract gridded data. The structure of the function also allows for pipes to be used.</p>
+<p>Alternatively you can use <code>sf</code> bounding box
+(<code>st_bbox()</code>) function output to define an extent over which
+you want to extract gridded data. The structure of the function also
+allows for pipes to be used.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sf.html">st_sf</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,
-                geom <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html">st_sfc</a></span><span class="op">(</span>
-                  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">34</span>, <span class="op">-</span><span class="fl">81</span><span class="op">)</span><span class="op">)</span>,
-                  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="op">-</span><span class="fl">80</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
-                crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span>
-
-  <span class="va">t_sand</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">%&gt;%</span>
-    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html">st_bbox</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/ws_subset.html">ws_subset</a></span><span class="op">(</span>param <span class="op">=</span> <span class="st">"T_SAND"</span><span class="op">)</span></code></pre></div>
-<p>This call gives an equivalent dataset as above, as shown in the plot.</p>
+<code class="sourceCode R"><span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">st_sf</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
+<span>                geom <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html" class="external-link">st_sfc</a></span><span class="op">(</span></span>
+<span>                  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html" class="external-link">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">34</span>, <span class="op">-</span><span class="fl">81</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html" class="external-link">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="op">-</span><span class="fl">80</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">t_sand</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu"><a href="../reference/ws_subset.html">ws_subset</a></span><span class="op">(</span>param <span class="op">=</span> <span class="st">"T_SAND"</span><span class="op">)</span></span></code></pre></div>
+<p>This call gives an equivalent dataset as above, as shown in the
+plot.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">t_sand</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">t_sand</span><span class="op">)</span></span></code></pre></div>
 <p><img src="hwsdr-vignette_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 </div>
 </div>
@@ -185,11 +187,11 @@
             <div class="col-xs-10">
                 <div class="row">
                     <div class="col-md-4 col-xs-6">
-                        <a href="http://github.com/bluegreen-labs" target="_blank">
+                        <a href="http://github.com/bluegreen-labs" target="_blank" class="external-link">
                           <div class="icon fab fa-github"></div></a>
-                        <a href="https://bluegreenlabs.org/labs/" target="_blank">
+                        <a href="https://bluegreenlabs.org/labs/" target="_blank" class="external-link">
                           <div class="icon fa fa-flask"></div></a>
-                        <a href="http://twitter.com/bluegreen_labs" target="_blank">
+                        <a href="http://twitter.com/bluegreen_labs" target="_blank" class="external-link">
                           <div class="icon fab fa-twitter"></div></a>
                     </div>
                 </div>
@@ -197,17 +199,17 @@
                     <div class="col-md-2 col-sm-4">
                         <ul>
 <h5 class="bottom-2">About</h5>
-                            <li><a href="https://bluegreenlabs.org/#intro">BlueGreen Labs</a></li>
-                            <li><a href="https://bluegreenlabs.org/#people">Our Team</a></li>
-                            <li><a href="https://bluegreenlabs.org/#contact">Contact Us</a></li>
+                            <li><a href="https://bluegreenlabs.org/#intro" class="external-link">BlueGreen Labs</a></li>
+                            <li><a href="https://bluegreenlabs.org/#people" class="external-link">Our Team</a></li>
+                            <li><a href="https://bluegreenlabs.org/#contact" class="external-link">Contact Us</a></li>
                         </ul>
 </div>
                     <div class="col-md-2 col-sm-4">
                         <ul>
 <h5 class="bottom-2">Resources</h5>
-                            <li><a href="https://github.com/bluegreen-labs">Packages</a></li>
-                            <li><a href="https://bluegreenlabs.org/publication/">Publications</a></li>
-                            <li><a href="https://bluegreenlabs.org/post/">Blog</a></li>
+                            <li><a href="https://github.com/bluegreen-labs" class="external-link">Packages</a></li>
+                            <li><a href="https://bluegreenlabs.org/publication/" class="external-link">Publications</a></li>
+                            <li><a href="https://bluegreenlabs.org/post/" class="external-link">Blog</a></li>
                         </ul>
 </div>
 
@@ -223,6 +225,8 @@
 
   
 
+
+  
 
   </body>
 </html>
