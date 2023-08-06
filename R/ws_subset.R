@@ -47,7 +47,7 @@
 #'     internal = TRUE
 #'    )
 #'    
-#'  raster::plot(t_sand)
+#'  terra::plot(t_sand)
 #' }
 
 ws_subset <- function(
