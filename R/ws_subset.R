@@ -12,8 +12,12 @@
 #' @param param soil parameters to provide, the default setting is ALL, this 
 #' will download all available soil parameters.Check
 #' https://daac.ornl.gov/SOILS/guides/HWSD.html for parameter descriptions.
+#' @param layer which soil depth layer of HWSD v2.0 to consider, layers are
+#'  named D1 to D7 from top to bottom
 #' @param path path where to download the data to (only applicable to
 #' spatial data)
+#' @param ws_path path to the gridded HWSD v2.0 data, only required/used if
+#'  querying v2.0 data
 #' @param internal do not store the data on disk
 #' @param rate request rate in seconds, determines how long to wait between 
 #'  queries to avoid bouncing because of rate limitations
@@ -50,116 +54,261 @@ ws_subset <- function(
   location = c(32, -81, 34, -80),
   site = "HWSD",
   param = "ALL",
+  layer = "D1",
   path = tempdir(),
+  ws_path = file.path(tempdir(), "ws_db"),
   internal = TRUE,
-  rate = 0.1
+  rate = 0.1,
+  version = 1.2
 ){
-  
-  # grab meta-data from package
-  meta_data <- hwsdr::hwsd_meta_data
-  
-  if(tolower(param) != "all" & any(!(param %in% meta_data$parameter))){
-    stop("One or more soil parameters are not valid!")
-  }
   
   # check coordinate length
   if (!(length(location) == 2 || length(location) == 4)){
     stop("Location parameters of insufficient length, check coordinates!")
   }
   
-  # check if there are enough coordinates specified
-  if (length(location) != 4){
-    bbox <- FALSE
+  if (as.numeric(version) < 2) {
     
-    # pad the point locations
-    # as the query needs a bounding box
-    location <- c(
-      location[1] - 0.05,
-      location[2] - 0.05,
-      location[1] + 0.05,
-      location[2] + 0.05
-    )
+    # grab meta-data from package
+    meta_data <- hwsdr::hwsd_meta_data
     
-  } else {
-    bbox <- TRUE
-  }
-  
-  # check the parameters we want to download in case of
-  # ALL list all available parameters for each frequency
-  if (any(grepl("ALL", toupper(param)))) {
+    if(tolower(param) != "all" & any(!(param %in% meta_data$parameter))){
+      stop("One or more soil parameters are not valid!")
+    }
     
-    # Use meta-data file to select all but the CLM
-    # parameters when calling ALL
-    param <- meta_data$parameter[
-        meta_data$parameter != "HWSD_SOIL_CLM_RES"
-        ]
-  }
-  
-  ws_stack <- 
-    lapply(param, function(par){
-      # Wait to avoid rate limitations
-      Sys.sleep(rate)
+    # check if there are enough coordinates specified
+    if (length(location) != 4){
+      bbox <- FALSE
       
-      # get data
-      ws_get(
-        location = location,
-        param = par,
-        path = tempdir())
-      }
-    )
+      # pad the point locations
+      # as the query needs a bounding box
+      location <- c(
+        location[1] - 0.05,
+        location[2] - 0.05,
+        location[1] + 0.05,
+        location[2] + 0.05
+      )
+      
+    } else {
+      bbox <- TRUE
+    }
+    
+    # check the parameters we want to download in case of
+    # ALL list all available parameters for each frequency
+    if (any(grepl("ALL", toupper(param)))) {
+      
+      # Use meta-data file to select all but the CLM
+      # parameters when calling ALL
+      param <- meta_data$parameter[
+          meta_data$parameter != "HWSD_SOIL_CLM_RES"
+          ]
+    }
+    
+    ws_stack <- 
+      lapply(param, function(par){
+        # Wait to avoid rate limitations
+        Sys.sleep(rate)
+        
+        # get data
+        ws_get(
+          location = location,
+          param = par,
+          path = tempdir())
+        }
+      )
+    
+    if(all(is.null(ws_stack))){
+      warning("No data retrieved!")
+      return(NULL)
+    }
+    
+    # convert the nested list to a nice
+    # raster stack
+    ws_stack <- terra::rast(ws_stack)
+    
+    # if only a single location is provided
+    # extract the pixel values and return
+    # as a data frame
+    if(!bbox){
+      
+      # define sf point location
+      p <- sf::st_as_sf(data.frame(
+        lat = location[1],
+        lon = location[2]),
+        coords = c("lon","lat"),
+        crs = 4326)
+      
+      # extract values
+      values <- terra::extract(ws_stack, p)
+      
+      # convert to tidy data
+      values <- data.frame(
+        site = site,
+        parameter = names(values),
+        latitude = location[1],
+        longitude = location[2], 
+        value = t(values),
+        row.names = NULL
+      )
+      
+      # return data
+      return(values)
+    }
   
-  if(all(is.null(ws_stack))){
-    warning("No data retrieved!")
-    return(NULL)
-  }
+    # if internal return the raster stack
+    # otherwise write to file as a geotiff
+    # in the desired path
+    if(internal){
+      return(ws_stack)
+    } else {
+      suppressWarnings(
+        terra::writeRaster(
+          ws_stack,
+          filename = file.path(path,
+                               sprintf("%s.tif",
+                                       site)),
+          overwrite = TRUE)   
+      )
+    }
   
-  # convert the nested list to a nice
-  # raster stack
-  ws_stack <- terra::rast(ws_stack)
-  
-  # if only a single location is provided
-  # extract the pixel values and return
-  # as a data frame
-  if(!bbox){
-    
-    # define sf point location
-    p <- sf::st_as_sf(data.frame(
-      lat = location[1],
-      lon = location[2]),
-      coords = c("lon","lat"),
-      crs = 4326)
-    
-    # extract values
-    values <- terra::extract(ws_stack, p)
-    
-    # convert to tidy data
-    values <- data.frame(
-      site = site,
-      parameter = names(values),
-      latitude = location[1],
-      longitude = location[2], 
-      value = t(values),
-      row.names = NULL
-    )
-    
-    # return data
-    return(values)
-  }
-
-  # if internal return the raster stack
-  # otherwise write to file as a geotiff
-  # in the desired path
-  if(internal){
-    return(ws_stack)
   } else {
-    suppressWarnings(
+    
+    # grab the full database
+    hwsd2 <- hwsdr::hwsd2 |>
+      filter(
+        LAYER == layer
+      )
+
+    # split out the meta-data (column names)
+    # retain only the numeric ones
+    meta_data <- hwsd2 |>
+      dplyr::select(where(is.numeric)) |>
+      names()
+    
+    if(all(tolower(param) != "all") & any(!(param %in% meta_data))){
+      stop("One or more soil parameters are not valid!")
+    }
+    
+    # download the gridded data if not available in
+    # the tempdir() or elsewhere
+    if (ws_path == file.path(tempdir(), "ws_db")) {
+      if(!dir.exists(file.path(tempdir(), "ws_db"))) {
+        ws_download(
+          ws_path = file.path(tempdir(), "ws_db")
+        )
+      }  
+    } else {
+      if (!dir.exists(ws_path)) {
+        stop(
+          "          ws_path does not exist! 
+          check the path location for your gridded
+          data file (to download with ws_download())
+          "
+          )
+      }
+    }
+    
+    ws_stack <- 
+      lapply(param, function(par){
+        
+        # read in raster grid, i.e IDs linking locations to
+        # database values
+        ids <- terra::rast(file.path(ws_path, "HWSD2.bil"))
+        
+        if (length(location) > 2) {
+          
+          # set filename
+          filename <- file.path(
+            path,
+            paste0(par, ".nc")
+          )
+          
+          # set the extent of the subset
+          e <- terra::ext(
+            location[2],
+            location[4],
+            location[1],
+            location[3]
+            )
+          
+          # crop the full  image to extent
+          c <- terra::crop(ids, e)
+          
+          # map values to the gridded indices
+          output <- terra::subst(
+            c,
+            from = hwsd2$HWSD2_SMU_ID,
+            to = hwsd2[par]
+          )
+          
+          return(output)
+        } else {
+          # define sf point location
+          p <- sf::st_as_sf(data.frame(
+            lat = location[1],
+            lon = location[2]),
+            coords = c("lon","lat"),
+            crs = 4326
+            )
+          
+          # extract values
+          pixel_id <- terra::extract(
+            ids,
+            p
+          )
+          
+          # select and filter output
+          output <- hwsd2 |>
+            filter(
+              HWSD2_SMU_ID == pixel_id$HWSD2
+            ) |>
+            dplyr::select( 
+              all_of(par)
+            ) |>
+            mutate(
+              latitude = location[1],
+              longitude = location[2],
+              site = site
+            )
+          
+          # tidy up data structure for compliance
+          # with the ORNL DAAC API output
+          output <- output |>
+            tidyr::pivot_longer(
+              cols = par,
+              values_to = "value",
+              names_to = "parameter",
+              values_drop_na = TRUE
+            )
+          
+          return(output)
+        }
+      })
+    
+    if(all(is.null(ws_stack))){
+      warning("No data retrieved!")
+      return(NULL)
+    }
+    
+    if (length(location) == 2) {
+      ws_stack <- bind_rows(ws_stack)
+      return(ws_stack)
+    }
+    
+    if (length(location) == 4) {
+      ws_stack <- rast(c(ws_stack))
+    }
+    
+    # if internal return the raster stack
+    # otherwise write to file as a geotiff
+    # in the desired path
+    if(internal & length(location) == 4){
+      return(ws_stack)
+    } else {
       terra::writeRaster(
         ws_stack,
-        filename = file.path(path,
-                             sprintf("%s.tif",
-                                     site)),
-        gdal = c("COMPRESS=DEFLATE"),
-        overwrite = TRUE)   
-    )
+        file.path(path, paste0(c(site, layer, ".tif"), collapse = "_"))
+      )
+    }
   }
 }
