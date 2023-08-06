@@ -252,8 +252,8 @@ ws_subset <- function(
         } else {
           # define sf point location
           p <- sf::st_as_sf(data.frame(
-            lat = location[1],
-            lon = location[2]),
+            lon = location[1],
+            lat = location[2]),
             coords = c("lon","lat"),
             crs = 4326
             )
@@ -273,8 +273,8 @@ ws_subset <- function(
               dplyr::all_of(par)
             ) |>
             dplyr::mutate(
-              latitude = location[1],
-              longitude = location[2],
+              latitude = location[2],
+              longitude = location[1],
               site = site,
               parameter = par
             ) |>
