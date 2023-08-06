@@ -3,7 +3,7 @@
 \docType{data}
 \name{hwsd_meta_data}
 \alias{hwsd_meta_data}
-\title{HWSD meta-data}
+\title{HWSD v1.2 (ORNL DAAC) meta-data}
 \format{
 data.frame
 \describe{

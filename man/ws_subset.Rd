@@ -8,9 +8,12 @@ ws_subset(
   location = c(32, -81, 34, -80),
   site = "HWSD",
   param = "ALL",
+  layer = "D1",
   path = tempdir(),
+  ws_path = file.path(tempdir(), "ws_db"),
   internal = TRUE,
-  rate = 0.1
+  rate = 0.1,
+  version = 1.2
 )
 }
 \arguments{
@@ -24,8 +27,14 @@ or a data frame with various locations listed (site, lat, lon)}
 will download all available soil parameters.Check
 https://daac.ornl.gov/SOILS/guides/HWSD.html for parameter descriptions.}
 
+\item{layer}{which soil depth layer of HWSD v2.0 to consider, layers are
+named D1 to D7 from top to bottom}
+
 \item{path}{path where to download the data to (only applicable to
 spatial data)}
+
+\item{ws_path}{path to the gridded HWSD v2.0 data, only required/used if
+querying v2.0 data}
 
 \item{internal}{do not store the data on disk}
 
@@ -64,6 +73,6 @@ disk.
     internal = TRUE
    )
    
- raster::plot(t_sand)
+ terra::plot(t_sand)
 }
 }
