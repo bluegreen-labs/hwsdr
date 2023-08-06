@@ -27,10 +27,8 @@ test_that("check download to disk.",{
   expect_true(file.exists(file.path(tempdir(), "HWSD.tif")))
 })
 
-
 test_that("check point download",{
   skip_on_cran()
-  
   data <- ws_subset(
     site = "HWSD",
     location = c(34, -81),
@@ -51,7 +49,6 @@ test_that("check coordinate length",{
       internal = TRUE
     )
   )
-  
 })  
 
 test_that("faulty param",{
@@ -69,15 +66,14 @@ test_that("faulty param",{
 
 test_that("test sf bbox method",{
   skip_on_cran()
-  library(magrittr)
   a <- sf::st_sf(a = 1:2,
                 geom = sf::st_sfc(
                   sf::st_point(c(34, -81)),
                   sf::st_point(c(32, -80))),
                 crs = 4326)
 
-  data <- a %>%
-    sf::st_bbox() %>%
+  data <- a |>
+    sf::st_bbox() |>
     ws_subset(param = "T_SAND")
   
   expect_s4_class(data, "SpatRaster")
