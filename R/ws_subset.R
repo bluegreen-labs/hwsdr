@@ -177,6 +177,7 @@ ws_subset <- function(
   
   } else {
     
+    # CRAN fix
     LAYER <- HWSD2_SMU_ID <- NULL
     
     # grab the full database
