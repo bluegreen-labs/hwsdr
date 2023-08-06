@@ -15,19 +15,20 @@ Description: Programmatic interface to the Harmonized World Soil Database
     or your computer. Routines for both single pixel data downloads and
     gridded data are provided.
 Depends:
-    R (>= 3.6)
+    R (>= 4.2)
 Imports:
     sf,
     terra,
-    httr
+    httr,
+    dplyr,
+    utils
 License: AGPL-3
 LazyData: true
 ByteCompile: true
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Encoding: UTF-8
 Suggests:
     ncdf4,
-    magrittr,
     knitr,
     markdown,
     covr,

@@ -8,15 +8,17 @@ ws_subset(
   location = c(32, -81, 34, -80),
   site = "HWSD",
   param = "ALL",
+  layer = "D1",
   path = tempdir(),
+  ws_path = file.path(tempdir(), "ws_db"),
   internal = TRUE,
-  rate = 0.1
+  rate = 0.1,
+  version = 1.2
 )
 }
 \arguments{
-\item{location}{location of a bounding box c(lat, lon, lat, lon) defined
-by a bottom-left and top-right coordinates, a single location (lat, lon)
-or a data frame with various locations listed (site, lat, lon)}
+\item{location}{location of a bounding box c(lon, lat, lon, lat) defined
+by a bottom-left and top-right coordinates, a single location (lon, lat)}
 
 \item{site}{sitename for the extracted location}
 
@@ -24,13 +26,24 @@ or a data frame with various locations listed (site, lat, lon)}
 will download all available soil parameters.Check
 https://daac.ornl.gov/SOILS/guides/HWSD.html for parameter descriptions.}
 
+\item{layer}{which soil depth layer of HWSD v2.0 to consider, layers are
+named D1 to D7 from top to bottom}
+
 \item{path}{path where to download the data to (only applicable to
 spatial data)}
+
+\item{ws_path}{path to the gridded HWSD v2.0 data, only required/used if
+querying v2.0 data}
 
 \item{internal}{do not store the data on disk}
 
 \item{rate}{request rate in seconds, determines how long to wait between 
 queries to avoid bouncing because of rate limitations}
+
+\item{version}{version of HWSD to query (numeric value). By default the
+package will query the ORNL DAAC v1.2 via their API. If specifying the
+later version (2.0) it will download or require the gridded spatial data
+in addition to the included HWSD v2.0 database with soil parameters.}
 }
 \value{
 Local geotiff data, or a data frame with HWSD soil information
@@ -64,6 +77,6 @@ disk.
     internal = TRUE
    )
    
- raster::plot(t_sand)
+ terra::plot(t_sand)
 }
 }
