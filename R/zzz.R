@@ -13,10 +13,9 @@ server <- function(
   } else {
     # return both files for HWSD v2.0
     url <- list(
-      mdb = file.path(fao_base, "/HWSD/HWSD2_DB.zip"),
-      grid = file.path(fao_base, "/HWSD/HWSD2_RASTER.zip")
+      mdb = file.path(fao_base, "HWSD/HWSD2_DB.zip"),
+      grid = file.path(fao_base, "HWSD/HWSD2_RASTER.zip")
     )
     return(url)  
   }
 }
-
