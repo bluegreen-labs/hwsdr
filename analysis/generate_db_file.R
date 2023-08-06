@@ -73,27 +73,27 @@ mdb_read <- function(file)
 }
 
 #---- download MS access HWSD v2.0 database ----
-# 
-# if(!dir.exists("./data-raw")) {
-#   dir.create("./data-raw")
-# }
-# 
-# curl::curl_download(
-#   unlist(server(version = "2.0")$mdb),
-#   destfile = "./data-raw/HWSD2.zip"
-# )
-# 
-# unzip(
-#   "./data-raw/HWSD2.zip",
-#   exdir = "./data-raw/"
-#   )
-# 
-# file.remove("./data-raw/HWSD2.zip")
+
+if(!dir.exists("./data-raw")) {
+  dir.create("./data-raw")
+}
+
+curl::curl_download(
+  unlist(server(version = "2.0")$mdb),
+  destfile = "./data-raw/HWSD2.zip"
+)
+
+unzip(
+  "./data-raw/HWSD2.zip",
+  exdir = "./data-raw/"
+  )
+
+file.remove("./data-raw/HWSD2.zip")
 
 #---- grab the database values for tables ----
 
 db <- mdb_read("./data-raw/HWSD2.mdb")
 
 # save as rda object
-#saveRDS(db, "data/hwsd2.rda", compress = "xz")
+saveRDS(db, "data/hwsd2.rda", compress = "xz")
 
