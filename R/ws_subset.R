@@ -198,10 +198,17 @@ ws_subset <- function(
     # the tempdir() or elsewhere
     if (ws_path == file.path(tempdir(), "ws_db")) {
       if(!dir.exists(file.path(tempdir(), "ws_db"))) {
-        ws_download(
+        ws_path <- ws_download(
           ws_path = file.path(tempdir(), "ws_db")
         )
-      }  
+      } else {
+        if(!file.exists(file.path(ws_path, "HWSD2.bil"))) {
+          ws_path <- ws_download(
+            ws_path = file.path(tempdir(), "ws_db")
+          )
+        }
+      }
+      
     } else {
       if (!dir.exists(ws_path)) {
         stop(

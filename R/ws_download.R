@@ -80,7 +80,7 @@ ws_download <- function(
             
       if (file.exists(file.path(ws_path, "HWSD2.bil"))) {
         message("Grid file exists, skipping download!")
-        return(invisible())
+        return(ws_path)
       }
     }
   }
@@ -116,4 +116,5 @@ ws_download <- function(
   
   # exit statement
   message("Downloaded HWSD v2.0 files")
+  return(ws_path)
 }
