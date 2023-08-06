@@ -18,6 +18,10 @@
 #' spatial data)
 #' @param ws_path path to the gridded HWSD v2.0 data, only required/used if
 #'  querying v2.0 data
+#' @param version version of HWSD to query (numeric value). By default the
+#'  package will query the ORNL DAAC v1.2 via their API. If specifying the
+#'  later version (2.0) it will download or require the gridded spatial data
+#'  in addition to the included HWSD v2.0 database with soil parameters.
 #' @param internal do not store the data on disk
 #' @param rate request rate in seconds, determines how long to wait between 
 #'  queries to avoid bouncing because of rate limitations
@@ -259,26 +263,20 @@ ws_subset <- function(
           
           # select and filter output
           output <- hwsd2 |>
-            filter(
+            dplyr::filter(
               HWSD2_SMU_ID == pixel_id$HWSD2
             ) |>
             dplyr::select( 
-              all_of(par)
+              dplyr::all_of(par)
             ) |>
-            mutate(
+            dplyr::mutate(
               latitude = location[1],
               longitude = location[2],
-              site = site
-            )
-          
-          # tidy up data structure for compliance
-          # with the ORNL DAAC API output
-          output <- output |>
-            tidyr::pivot_longer(
-              cols = par,
-              values_to = "value",
-              names_to = "parameter",
-              values_drop_na = TRUE
+              site = site,
+              parameter = par
+            ) |>
+            dplyr::rename(
+              "value" = !!par
             )
           
           return(output)
@@ -296,7 +294,7 @@ ws_subset <- function(
     }
     
     if (length(location) == 4) {
-      ws_stack <- rast(c(ws_stack))
+      ws_stack <- terra::rast(c(ws_stack))
     }
     
     # if internal return the raster stack
