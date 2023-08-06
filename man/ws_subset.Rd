@@ -17,9 +17,8 @@ ws_subset(
 )
 }
 \arguments{
-\item{location}{location of a bounding box c(lat, lon, lat, lon) defined
-by a bottom-left and top-right coordinates, a single location (lat, lon)
-or a data frame with various locations listed (site, lat, lon)}
+\item{location}{location of a bounding box c(lon, lat, lon, lat) defined
+by a bottom-left and top-right coordinates, a single location (lon, lat)}
 
 \item{site}{sitename for the extracted location}
 
