@@ -58,7 +58,7 @@ ws_download <- function(
     
     message(
       sprintf(
-        "Creating temporary HWSD v2.0 file location at:\n %s", ws_path )
+        "Creating temporary HWSD v2.0 files at:\n %s", ws_path )
     )
     
     # create storage path
@@ -73,11 +73,15 @@ ws_download <- function(
         "Database directory does not exist, please create the directory first!"
       )
     } else {
-      Sys.setenv("WS_PATH" = ws_path)
-      message(
-        sprintf(
-          "Saving HWSD v2.0 files in at:\n %s", ws_path )
-      )
+
+      if(Sys.getenv("WS_PATH") == "" | new_path) {
+        Sys.setenv("WS_PATH" = ws_path)  
+      }
+            
+      if (file.exists(file.path(ws_path, "HWSD2.bil"))) {
+        message("Grid file exists, skipping download!")
+        return(invisible())
+      }
     }
   }
   
@@ -85,7 +89,6 @@ ws_download <- function(
   urls <- server(version = "2.0")
   
   # download zipped gridded data
-  message("Downloading raster file")
   httr::GET(
     urls$grid,
     httr::write_disk(
@@ -104,6 +107,11 @@ ws_download <- function(
     c(
       file.path(ws_path, "hwsd2_raster.zip")
     )
+  )
+  
+  message(
+    sprintf(
+      "Saving HWSD v2.0 files in at:\n %s", ws_path )
   )
   
   # exit statement
