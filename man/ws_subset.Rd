@@ -40,6 +40,11 @@ querying v2.0 data}
 
 \item{rate}{request rate in seconds, determines how long to wait between 
 queries to avoid bouncing because of rate limitations}
+
+\item{version}{version of HWSD to query (numeric value). By default the
+package will query the ORNL DAAC v1.2 via their API. If specifying the
+later version (2.0) it will download or require the gridded spatial data
+in addition to the included HWSD v2.0 database with soil parameters.}
 }
 \value{
 Local geotiff data, or a data frame with HWSD soil information
