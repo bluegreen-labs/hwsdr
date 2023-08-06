@@ -86,13 +86,15 @@ ws_download <- function(
   
   # download zipped gridded data
   message("Downloading raster file")
-  curl::curl_download(
+  httr::GET(
     urls$grid,
-    destfile = file.path(ws_path, "hwsd2_raster.zip"),
-    quiet = TRUE
-  )
+    httr::write_disk(
+      file.path(ws_path, "hwsd2_raster.zip"),
+      overwrite = TRUE
+      )
+    )
   
-  unzip(
+  utils::unzip(
     file.path(ws_path, "hwsd2_raster.zip"),
     exdir = ws_path
   )
