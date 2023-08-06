@@ -53,19 +53,6 @@ ws_download <- function(
   # grab urls
   urls <- server(version = "2.0")
   
-  # download zipped database from FAO
-  message("Downloading database file")
-  curl::curl_download(
-    urls$mdb,
-    destfile = file.path(ws_path, "hwsd2_db.zip"),
-    quiet = TRUE
-  )
-  
-  unzip(
-    file.path(ws_path, "hwsd2_db.zip"),
-    exdir = ws_path
-  )
-  
   # download zipped gridded data
   message("Downloading raster file")
   curl::curl_download(
@@ -82,8 +69,7 @@ ws_download <- function(
   # clean up zip files
   status <- file.remove(
     c(
-      file.path(ws_path, "hwsd2_raster.zip"),
-      file.path(ws_path, "hwsd2_db.zip")
+      file.path(ws_path, "hwsd2_raster.zip")
     )
   )
   
