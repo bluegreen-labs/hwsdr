@@ -25,10 +25,16 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
+    <loc>/reference/hwsd2.html</loc>
+  </url>
+  <url>
     <loc>/reference/hwsd_meta_data.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ws_download.html</loc>
   </url>
   <url>
     <loc>/reference/ws_get.html</loc>
