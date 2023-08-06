@@ -20,7 +20,8 @@ Imports:
     sf,
     terra,
     httr,
-    dplyr
+    dplyr,
+    tidyr
 License: AGPL-3
 LazyData: true
 ByteCompile: true
@@ -28,7 +29,6 @@ RoxygenNote: 7.2.1
 Encoding: UTF-8
 Suggests:
     ncdf4,
-    magrittr,
     knitr,
     markdown,
     covr,
