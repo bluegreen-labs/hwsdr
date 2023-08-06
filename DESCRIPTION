@@ -15,7 +15,7 @@ Description: Programmatic interface to the Harmonized World Soil Database
     or your computer. Routines for both single pixel data downloads and
     gridded data are provided.
 Depends:
-    R (>= 3.6)
+    R (>= 4.2)
 Imports:
     sf,
     terra,
