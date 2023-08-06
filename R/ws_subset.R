@@ -6,9 +6,8 @@
 #' disk.
 #' 
 #' @param site sitename for the extracted location
-#' @param location location of a bounding box c(lat, lon, lat, lon) defined
-#' by a bottom-left and top-right coordinates, a single location (lat, lon)
-#' or a data frame with various locations listed (site, lat, lon)
+#' @param location location of a bounding box c(lon, lat, lon, lat) defined
+#' by a bottom-left and top-right coordinates, a single location (lon, lat)
 #' @param param soil parameters to provide, the default setting is ALL, this 
 #' will download all available soil parameters.Check
 #' https://daac.ornl.gov/SOILS/guides/HWSD.html for parameter descriptions.
@@ -110,6 +109,7 @@ ws_subset <- function(
     
     ws_stack <- 
       lapply(param, function(par){
+        
         # Wait to avoid rate limitations
         Sys.sleep(rate)
         
@@ -137,8 +137,8 @@ ws_subset <- function(
       
       # define sf point location
       p <- sf::st_as_sf(data.frame(
-        lat = location[1],
-        lon = location[2]),
+        lat = location[2],
+        lon = location[1]),
         coords = c("lon","lat"),
         crs = 4326)
       
@@ -149,8 +149,8 @@ ws_subset <- function(
       values <- data.frame(
         site = site,
         parameter = names(values),
-        latitude = location[1],
-        longitude = location[2], 
+        latitude = location[2],
+        longitude = location[1], 
         value = t(values),
         row.names = NULL
       )
@@ -177,16 +177,16 @@ ws_subset <- function(
   
   } else {
     
+    LAYER <- HWSD2_SMU_ID <- NULL
+    
     # grab the full database
     hwsd2 <- hwsdr::hwsd2 |>
-      filter(
+      dplyr::filter(
         LAYER == layer
       )
 
     # split out the meta-data (column names)
-    # retain only the numeric ones
     meta_data <- hwsd2 |>
-      dplyr::select(where(is.numeric)) |>
       names()
     
     if(all(tolower(param) != "all") & any(!(param %in% meta_data))){
@@ -228,22 +228,25 @@ ws_subset <- function(
           )
           
           # set the extent of the subset
-          e <- terra::ext(
-            location[2],
-            location[4],
-            location[1],
-            location[3]
-            )
+          e <- terra::ext(location)
           
-          # crop the full  image to extent
+          # crop the full image to extent
           c <- terra::crop(ids, e)
           
           # map values to the gridded indices
-          output <- terra::subst(
-            c,
-            from = hwsd2$HWSD2_SMU_ID,
-            to = hwsd2[par]
+          output <- try(
+            terra::subst(
+              c,
+              from = hwsd2$HWSD2_SMU_ID,
+              to = hwsd2[par]
+            )
           )
+          
+          if(inherits(output, "try-error")){
+            stop(
+            "Value subsitution requires numeric values,\n check selected values!"
+            )
+          }
           
           return(output)
         } else {
@@ -289,7 +292,7 @@ ws_subset <- function(
     }
     
     if (length(location) == 2) {
-      ws_stack <- bind_rows(ws_stack)
+      ws_stack <- dplyr::bind_rows(ws_stack)
       return(ws_stack)
     }
     
@@ -305,7 +308,8 @@ ws_subset <- function(
     } else {
       terra::writeRaster(
         ws_stack,
-        file.path(path, paste0(c(site, layer, ".tif"), collapse = "_"))
+        file.path(path, paste0(c(site, layer, ".tif"), collapse = "_")),
+        overwrite = TRUE
       )
     }
   }
