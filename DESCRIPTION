@@ -21,7 +21,7 @@ Imports:
     terra,
     httr,
     dplyr,
-    tidyr
+    utils
 License: AGPL-3
 LazyData: true
 ByteCompile: true
