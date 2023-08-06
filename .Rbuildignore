@@ -8,6 +8,7 @@
 ^CONDUCT\.md$
 ^NEWS\.md$
 ^docs$
+^analysis$
 ^pkgdown$
 ^LICENSE$
 ^.*-logo\..*$

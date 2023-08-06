@@ -19,7 +19,8 @@ Depends:
 Imports:
     sf,
     terra,
-    httr
+    httr,
+    dplyr
 License: AGPL-3
 LazyData: true
 ByteCompile: true
