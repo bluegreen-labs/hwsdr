@@ -120,6 +120,9 @@
 <div class="section level3">
 <h3 id="development-release">development release<a class="anchor" aria-label="anchor" href="#development-release"></a>
 </h3>
+<blockquote>
+<p>Breaking change: as of version 1.1 the order of the coordinates in the location string has changed from (lat, lon, lat, lon) to (lon, lat, lon, lat)!</p>
+</blockquote>
 <p>To install the development releases of the package run the following commands:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org" class="external-link">remotes</a></span><span class="op">)</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span><span class="op">}</span></span>
@@ -136,22 +139,25 @@
 <h2 id="use">Use<a class="anchor" aria-label="anchor" href="#use"></a>
 </h2>
 <div class="section level3">
-<h3 id="single-pixel-location-download">Single pixel location download<a class="anchor" aria-label="anchor" href="#single-pixel-location-download"></a>
+<h3 id="hwsd-v12-ornl-daac-api">HWSD v1.2 (ORNL DAAC API)<a class="anchor" aria-label="anchor" href="#hwsd-v12-ornl-daac-api"></a>
 </h3>
+<div class="section level4">
+<h4 id="single-pixel-location-download">Single pixel location download<a class="anchor" aria-label="anchor" href="#single-pixel-location-download"></a>
+</h4>
 <p>Get world soil values for a single site using the following format, specifying coordinates as a pair of latitude, longitude coordinates. Here all available soil layers are queried.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">all</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">all</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
 <span>    site <span class="op">=</span> <span class="st">"HWSD"</span>,</span>
 <span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">34</span>, <span class="op">-</span><span class="fl">81</span><span class="op">)</span>,</span>
 <span>    param <span class="op">=</span> <span class="st">"ALL"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="gridded-data">Gridded data<a class="anchor" aria-label="anchor" href="#gridded-data"></a>
-</h3>
+<div class="section level4">
+<h4 id="gridded-data">Gridded data<a class="anchor" aria-label="anchor" href="#gridded-data"></a>
+</h4>
 <p>You can download gridded data by specifying a bounding box c(lat, lon, lat, lon) defined by a bottom left and top right coordinates. Here the call only extracts the top soil fraction of sand (% weight).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">t_sand</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">t_sand</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
 <span>    site <span class="op">=</span> <span class="st">"HWSD"</span>,</span>
 <span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="op">-</span><span class="fl">81</span>, <span class="fl">34</span>, <span class="op">-</span><span class="fl">80</span><span class="op">)</span>,</span>
 <span>    param <span class="op">=</span> <span class="st">"T_SAND"</span>,</span>
@@ -160,10 +166,34 @@
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a>
-</h2>
+<div class="section level3">
+<h3 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a>
+</h3>
 <p>By default all parameters are downloaded, a complete list of the individual parameters is provided on the ORNL webpage (<a href="https://daac.ornl.gov/SOILS/guides/HWSD.html" class="external-link uri">https://daac.ornl.gov/SOILS/guides/HWSD.html</a>). Alternatively you may find a similar list of data in the <code>hwsd_meta_data</code> dataset as provided by the package.</p>
+</div>
+<div class="section level3">
+<h3 id="hwsd-v20-fao">HWSD v2.0 (FAO)<a class="anchor" aria-label="anchor" href="#hwsd-v20-fao"></a>
+</h3>
+<p>This is an experimental feature, awaiting an update of the ORNL DAAC API to version 2.0 of the HWSD database. Although functionally complete the procedure is more complex as it includes a bulk download of a base map.</p>
+<div class="section level4">
+<h4 id="download-the-base-map">Download the base map<a class="anchor" aria-label="anchor" href="#download-the-base-map"></a>
+</h4>
+<p>The HWSD v2.0 data is distributed as a gridded spatial map where homogeneous regions are indicated with indices (integers). Although the underlying database is included in the package and can be accessed using <code><a href="reference/hwsd2.html">hwsdr::hwsd2</a></code>, the spatial data accompanying the database is too large for inclusion in the package. This spatial data needs to be downloaded explicitly to a desired path before any other functions will work.</p>
+<p><code>{r eval = FALSE} # set the ws_path variable using a FULL path name path &lt;- ws_download(   ws_path = "/your/full/path",   verbose = TRUE )</code></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="single-pixel-location-download-1">Single pixel location download<a class="anchor" aria-label="anchor" href="#single-pixel-location-download-1"></a>
+</h3>
+<p>Get world soil values for a single site using the following format, specifying coordinates as a pair of longitude, latitude coordinates (longitude, latitude). Here the call only extracts the top soil (layer = “D1”) fraction of sand and silt (% weight) for one specific location. Note that you will need to specify the correct version to be used in processing.</p>
+<p><code>{r eval = FALSE} values &lt;- ws_subset(     site = "HWSD_V2",     location = c(-81, 34),     param = c("SAND","SILT"),     layer = "D1",     version = "2.0", # set correct HWSD version     ws_path = "/your/full/path" # specify grid map directory   )</code></p>
+</div>
+<div class="section level3">
+<h3 id="gridded-data-1">Gridded data<a class="anchor" aria-label="anchor" href="#gridded-data-1"></a>
+</h3>
+<p>You can grab gridded data by specifying a bounding box c(lon, lat, lon, lat) defined by a bottom left and top right coordinates. Here the call only extracts the top soil (D1 layer) fraction of sand (%).</p>
+<p><code>{r eval = FALSE} sand &lt;- ws_subset(     location = c(32, -81, 34, -80),     param = "SAND",     layer = "D1",     version = "2.0",     ws_path = Sys.getenv("WS_PATH"),     # ws_path = "/your/full/path",     internal = TRUE   )</code></p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -173,7 +203,7 @@
 <div class="section level2">
 <h2 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
 </h2>
-<p>This project was supported by the Schmidt Futures Initiative Land Ecosystem Models based On New Theory, obseRvations, and ExperimEnts (LEMONTREE) project.</p>
+<p>The <code>hwsdr</code> package is a product of BlueGreen Labs, and has been in part supported by the LEMONTREE project funded through the Schmidt Futures fund, under the umbrella of the Virtual Earth System Research Institute (VESRI).</p>
 </div>
 </div>
   </div>

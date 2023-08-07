@@ -119,7 +119,7 @@ process largely remains similar to the use of the ORNL DAAC API.</p>
 <div class="section level3">
 <h3 id="download-the-base-map">Download the base map<a class="anchor" aria-label="anchor" href="#download-the-base-map"></a>
 </h3>
-<p>The HWSD v2.0 data is distributed as a spatial map where homogenous
+<p>The HWSD v2.0 data is distributed as a spatial map where homogeneous
 regions are indicated with indices (integers). Although the underlying
 database is included in the package and can be accessed using
 <code><a href="../reference/hwsd2.html">hwsdr::hwsd2</a></code>, the spatial data accompanying the database is
@@ -166,13 +166,13 @@ new version of the database has seven layers (D1 - D7) instead of just a
 top soil and sub-soil layer.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
-<span>    site <span class="op">=</span> <span class="st">"HWSD_V2"</span>,</span>
-<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">81</span>, <span class="fl">34</span><span class="op">)</span>,</span>
-<span>    param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SAND"</span>,<span class="st">"SILT"</span><span class="op">)</span>,</span>
-<span>    layer <span class="op">=</span> <span class="st">"D1"</span>,</span>
-<span>    version <span class="op">=</span> <span class="st">"2.0"</span>,</span>
-<span>    ws_path <span class="op">=</span> <span class="st">"/your/full/path"</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
+<span>  site <span class="op">=</span> <span class="st">"HWSD_V2"</span>,</span>
+<span>  location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">81</span>, <span class="fl">34</span><span class="op">)</span>,</span>
+<span>  param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SAND"</span>,<span class="st">"SILT"</span><span class="op">)</span>,</span>
+<span>  layer <span class="op">=</span> <span class="st">"D1"</span>,</span>
+<span>  version <span class="op">=</span> <span class="st">"2.0"</span>,</span>
+<span>  ws_path <span class="op">=</span> <span class="st">"/your/full/path"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>At this location we have a top soil fraction of sand of 78% weight
 and a silt fraction of 12 % weight! Data are returned as tidy data
 frames including basic meta-data of the query for later subsetting.</p>
@@ -190,15 +190,16 @@ frames including basic meta-data of the query for later subsetting.</p>
 <p>You can grab gridded data by specifying a bounding box c(lon, lat,
 lon, lat) defined by a bottom left and top right coordinates. Here the
 call only extracts the top soil (D1 layer) fraction of sand (%).</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  sand <span class="ot">&lt;-</span> <span class="fu">ws_subset</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ws_subset</span>(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">param =</span> <span class="st">"SAND"</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">layer =</span> <span class="st">"D1"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">version =</span> <span class="st">"2.0"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ws_path =</span> <span class="fu">Sys.getenv</span>(<span class="st">"WS_PATH"</span>),</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ws_path = "/your/full/path",</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">internal =</span> <span class="cn">TRUE</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sand</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
+<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">81</span>, <span class="fl">32</span>, <span class="op">-</span><span class="fl">80</span>, <span class="fl">34</span><span class="op">)</span>,</span>
+<span>    param <span class="op">=</span> <span class="st">"SAND"</span>,</span>
+<span>    layer <span class="op">=</span> <span class="st">"D1"</span>,</span>
+<span>    version <span class="op">=</span> <span class="st">"2.0"</span>,</span>
+<span>    ws_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"WS_PATH"</span><span class="op">)</span>,</span>
+<span>    <span class="co"># ws_path = "/your/full/path",</span></span>
+<span>    internal <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sand</span><span class="op">)</span></span></code></pre></div>
 <p><img src="hwsdr-v2-vignette_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
