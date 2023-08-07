@@ -179,20 +179,42 @@
 <h4 id="download-the-base-map">Download the base map<a class="anchor" aria-label="anchor" href="#download-the-base-map"></a>
 </h4>
 <p>The HWSD v2.0 data is distributed as a gridded spatial map where homogeneous regions are indicated with indices (integers). Although the underlying database is included in the package and can be accessed using <code><a href="reference/hwsd2.html">hwsdr::hwsd2</a></code>, the spatial data accompanying the database is too large for inclusion in the package. This spatial data needs to be downloaded explicitly to a desired path before any other functions will work.</p>
-<p><code>{r eval = FALSE} # set the ws_path variable using a FULL path name path &lt;- ws_download(   ws_path = "/your/full/path",   verbose = TRUE )</code></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># set the ws_path variable using a FULL path name</span></span>
+<span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ws_download.html">ws_download</a></span><span class="op">(</span></span>
+<span>  ws_path <span class="op">=</span> <span class="st">"/your/full/path"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
 <h3 id="single-pixel-location-download-1">Single pixel location download<a class="anchor" aria-label="anchor" href="#single-pixel-location-download-1"></a>
 </h3>
 <p>Get world soil values for a single site using the following format, specifying coordinates as a pair of longitude, latitude coordinates (longitude, latitude). Here the call only extracts the top soil (layer = “D1”) fraction of sand and silt (% weight) for one specific location. Note that you will need to specify the correct version to be used in processing.</p>
-<p><code>{r eval = FALSE} values &lt;- ws_subset(     site = "HWSD_V2",     location = c(-81, 34),     param = c("SAND","SILT"),     layer = "D1",     version = "2.0", # set correct HWSD version     ws_path = "/your/full/path" # specify grid map directory   )</code></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
+<span>    site <span class="op">=</span> <span class="st">"HWSD_V2"</span>,</span>
+<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">81</span>, <span class="fl">34</span><span class="op">)</span>,</span>
+<span>    param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SAND"</span>,<span class="st">"SILT"</span><span class="op">)</span>,</span>
+<span>    layer <span class="op">=</span> <span class="st">"D1"</span>,</span>
+<span>    version <span class="op">=</span> <span class="st">"2.0"</span>, <span class="co"># set correct HWSD version</span></span>
+<span>    ws_path <span class="op">=</span> <span class="st">"/your/full/path"</span> <span class="co"># specify grid map directory</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="gridded-data-1">Gridded data<a class="anchor" aria-label="anchor" href="#gridded-data-1"></a>
 </h3>
 <p>You can grab gridded data by specifying a bounding box c(lon, lat, lon, lat) defined by a bottom left and top right coordinates. Here the call only extracts the top soil (D1 layer) fraction of sand (%).</p>
-<p><code>{r eval = FALSE} sand &lt;- ws_subset(     location = c(32, -81, 34, -80),     param = "SAND",     layer = "D1",     version = "2.0",     ws_path = Sys.getenv("WS_PATH"),     # ws_path = "/your/full/path",     internal = TRUE   )</code></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sand</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
+<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="op">-</span><span class="fl">81</span>, <span class="fl">34</span>, <span class="op">-</span><span class="fl">80</span><span class="op">)</span>,</span>
+<span>    param <span class="op">=</span> <span class="st">"SAND"</span>,</span>
+<span>    layer <span class="op">=</span> <span class="st">"D1"</span>,</span>
+<span>    version <span class="op">=</span> <span class="st">"2.0"</span>,</span>
+<span>    ws_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"WS_PATH"</span><span class="op">)</span>,</span>
+<span>    <span class="co"># ws_path = "/your/full/path",</span></span>
+<span>    internal <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
