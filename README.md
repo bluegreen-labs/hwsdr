@@ -80,4 +80,4 @@ Wieder, W.R., J. Boehnert, G.B. Bonan, and M. Langseth. 2014. Regridded Harmoniz
 
 ## Acknowledgements
 
-This project was supported by the Schmidt Futures Initiative Land Ecosystem Models based On New Theory, obseRvations, and ExperimEnts (LEMONTREE) project.
+The `hwsdr` package is a product of BlueGreen Labs, and has been in part supported by the LEMONTREE project funded through the Schmidt Futures fund, under the umbrella of the Virtual Earth System Research Institute (VESRI).
