@@ -87,7 +87,7 @@ This is an experimental feature, awaiting an update of the ORNL DAAC API to vers
 
 The HWSD v2.0 data is distributed as a gridded spatial map where homogeneous regions are indicated with indices (integers). Although the underlying database is included in the package and can be accessed using `hwsdr::hwsd2`, the spatial data accompanying the database is too large for inclusion in the package. This spatial data needs to be downloaded explicitly to a desired path before any other functions will work.
 
-```{r eval = FALSE}
+``` r
 # set the ws_path variable using a FULL path name
 path <- ws_download(
   ws_path = "/your/full/path",
@@ -99,7 +99,7 @@ path <- ws_download(
 
 Get world soil values for a single site using the following format, specifying coordinates as a pair of longitude, latitude coordinates (longitude, latitude). Here the call only extracts the top soil (layer = "D1") fraction of sand and silt (% weight) for one specific location. Note that you will need to specify the correct version to be used in processing.
 
-```{r eval = FALSE}
+``` r
 values <- ws_subset(
     site = "HWSD_V2",
     location = c(-81, 34),
@@ -114,7 +114,7 @@ values <- ws_subset(
 
 You can grab gridded data by specifying a bounding box c(lon, lat, lon, lat) defined by a bottom left and top right coordinates. Here the call only extracts the top soil (D1 layer) fraction of sand (%).
 
-```{r eval = FALSE}
+``` r
 sand <- ws_subset(
     location = c(32, -81, 34, -80),
     param = "SAND",
