@@ -24,6 +24,8 @@
 #' @param internal do not store the data on disk
 #' @param rate request rate in seconds, determines how long to wait between 
 #'  queries to avoid bouncing because of rate limitations
+#' @param verbose verbose output during processing, only covers the internal
+#'  use of the ws_download() function for HWSD v2.0 data
 #' @return Local geotiff data, or a data frame with HWSD soil information
 #' 
 #' @export
@@ -62,7 +64,8 @@ ws_subset <- function(
   ws_path = file.path(tempdir(), "ws_db"),
   internal = TRUE,
   rate = 0.1,
-  version = 1.2
+  version = 1.2,
+  verbose = FALSE
 ){
   
   # check coordinate length
@@ -199,24 +202,16 @@ ws_subset <- function(
     if (ws_path == file.path(tempdir(), "ws_db")) {
       if(!dir.exists(file.path(tempdir(), "ws_db"))) {
         ws_path <- ws_download(
-          ws_path = file.path(tempdir(), "ws_db")
+          ws_path = file.path(tempdir(), "ws_db"),
+          verbose = verbose
         )
       } else {
         if(!file.exists(file.path(ws_path, "HWSD2.bil"))) {
           ws_path <- ws_download(
-            ws_path = file.path(tempdir(), "ws_db")
+            ws_path = ws_path,
+            verbose = verbose
           )
         }
-      }
-      
-    } else {
-      if (!dir.exists(ws_path)) {
-        stop(
-          "          ws_path does not exist! 
-          check the path location for your gridded
-          data file (to download with ws_download())
-          "
-          )
       }
     }
     

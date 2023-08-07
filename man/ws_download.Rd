@@ -4,13 +4,13 @@
 \alias{ws_download}
 \title{Download HWSD v2.0 data}
 \usage{
-ws_download(ws_path = file.path(tempdir(), "ws_db"), new_path = FALSE)
+ws_download(ws_path = file.path(tempdir(), "ws_db"), verbose = FALSE)
 }
 \arguments{
 \item{ws_path}{the path / directory where to store the HWSD v2.0 database}
 
-\item{new_path}{update the path, i.e. dowload data to a new local
-location (logical, default FALSE)}
+\item{verbose}{verbose messaging of downloading and managing the gridded
+data file}
 }
 \value{
 current data path
@@ -21,14 +21,17 @@ to a desired output path for subsetting.
 }
 \details{
 When an existing path is used which is not the temporary directory
-an environmental variable WS_PATH will be set. This variable will
-override the default temporary directory if it exists. This allows
-the gridded data to be stored elsewhere and be forgotten (while using the
-{hwsdr} package for HWSD v2.0).
+an environmental variable WS_PATH can be set by creating an ~/.Renviron file
+using usethis::edit_r_environ() and entering the path as:
 
-Should you delete the gridded file, than it can be downloaded again but
-the environmental variable should be set again using the new_path = TRUE
-flag.
+WS_PATH = "/your/full/path"
+
+This variable will override the default temporary directory if it exists.
+This allows the gridded data to be stored elsewhere and be forgotten 
+(while using the {hwsdr} package for HWSD v2.0).
+
+Should you delete the gridded file, the environmental variable should be
+altered and set again by editting the ~/.Renviron file to a new location.
 }
 \examples{
 
@@ -41,7 +44,7 @@ flag.
  # download the same data to a specific
  # directory (which should exist)
  ws_download(
- ws_path = "~/my_path"
+  ws_path = "~/my_path"
  )
  
  # download the same data to a specific
@@ -49,7 +52,7 @@ flag.
  # update the environmental variable
  ws_download(
  ws_path = "~/my_path",
- new_path = TRUE
+ verbose = TRUE
  )
 }
 }

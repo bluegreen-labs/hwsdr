@@ -13,7 +13,8 @@ ws_subset(
   ws_path = file.path(tempdir(), "ws_db"),
   internal = TRUE,
   rate = 0.1,
-  version = 1.2
+  version = 1.2,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -44,6 +45,9 @@ queries to avoid bouncing because of rate limitations}
 package will query the ORNL DAAC v1.2 via their API. If specifying the
 later version (2.0) it will download or require the gridded spatial data
 in addition to the included HWSD v2.0 database with soil parameters.}
+
+\item{verbose}{verbose output during processing, only covers the internal
+use of the ws_download() function for HWSD v2.0 data}
 }
 \value{
 Local geotiff data, or a data frame with HWSD soil information
