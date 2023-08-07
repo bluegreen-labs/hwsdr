@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>hwsdr functionality • hwsdr</title>
+<title>hwsdr v2.0 functionality • hwsdr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/apple-touch-icon.png">
@@ -18,7 +18,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,400;0,700;1,300;1,400&amp;display=swap" rel="stylesheet">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><!-- ropensci --><link href="../bglabs.css" rel="stylesheet">
-<meta property="og:title" content="hwsdr functionality">
+<meta property="og:title" content="hwsdr v2.0 functionality">
 <meta property="og:description" content="hwsdr">
 <meta name="twitter:card" content="summary">
 </head>
@@ -91,71 +91,122 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>hwsdr functionality</h1>
+      <h1 data-toc-skip>hwsdr v2.0 functionality</h1>
                         <h4 data-toc-skip class="author">Koen
 Hufkens</h4>
             
             <h4 data-toc-skip class="date">2023-08-07</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/bluegreen-labs/hwsdr/blob/HEAD/vignettes/hwsdr-vignette.Rmd" class="external-link"><code>vignettes/hwsdr-vignette.Rmd</code></a></small>
-      <div class="hidden name"><code>hwsdr-vignette.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/bluegreen-labs/hwsdr/blob/HEAD/vignettes/hwsdr-v2-vignette.Rmd" class="external-link"><code>vignettes/hwsdr-v2-vignette.Rmd</code></a></small>
+      <div class="hidden name"><code>hwsdr-v2-vignette.Rmd</code></div>
 
     </div>
 
     
     
-<p>Programmatic interface to the Harmonized World Soil Database ‘HWSD’
-web services (<a href="https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247" class="external-link uri">https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247</a>).
-Allows for easy downloads of ‘HWSD’ soil data directly to your R
-workspace or your computer. Routines for both single pixel data
-downloads and gridded data are provided.</p>
+<p>Although the package provides support for the programmatic interface
+to the Harmonized World Soil Database ‘HWSD’ web services (<a href="https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247" class="external-link uri">https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247</a>), a
+newer <a href="https://gaez.fao.org/pages/hwsd" class="external-link">HWSD v2.0 version</a> of
+the database has been released by the Food and Agriculture Organization
+(FAO). However, this version is not yet available on the ORNL DAAC. In
+the mean time, I provide point and region based extraction of data
+through the package with minimal manual downloads or data manipulations.
+In short, aside from the downloading of a single map (indices) the
+process largely remains similar to the use of the ORNL DAAC API.</p>
 <div class="section level2">
 <h2 id="use">Use<a class="anchor" aria-label="anchor" href="#use"></a>
 </h2>
 <div class="section level3">
+<h3 id="download-the-base-map">Download the base map<a class="anchor" aria-label="anchor" href="#download-the-base-map"></a>
+</h3>
+<p>The HWSD v2.0 data is distributed as a spatial map where homogenous
+regions are indicated with indices (integers). Although the underlying
+database is included in the package and can be accessed using
+<code><a href="../reference/hwsd2.html">hwsdr::hwsd2</a></code>, the spatial data accompanying the database is
+too large for inclusion in the package. This spatial data needs to be
+downloaded explicitly.</p>
+<p>Ideally, to speed up processing between sessions you download the
+data to a fixed location (directory) on your computer. The function
+<code><a href="../reference/ws_download.html">ws_download()</a></code> will download the data there. If successful
+the function will return the path where the data is located.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># set the ws_path variable using a FULL path name</span></span>
+<span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ws_download.html">ws_download</a></span><span class="op">(</span></span>
+<span>  ws_path <span class="op">=</span> <span class="st">"/your/full/path"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>To create persistence of the data between sessions, you can set the
+~.Renviron file to contain a <code>WS_PATH</code> variable pointing to
+the directory where you downloaded the data. This environmental variable
+will then be read at startup and will be the default file location when
+using the <code>hwsdr</code> package for v2.0 data.</p>
+<p>To set the .Renviron file you can use the <code>usethis</code>
+package and the <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code> function, which
+will create the file and open it in RStudio for you to edit.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">edit_r_environ</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>In the editor window you can then write:</p>
+<pre><code><span><span class="va">WS_PATH</span> <span class="op">=</span> <span class="st">"/your/full/path"</span></span></code></pre>
+<p>A restart of the R(Studio) session is required for this to be
+considered in further processing. After this you can call the path by
+using <code>Sys.getenv("WS_PATH")</code> and passing the value to the
+<code>ws_path</code> parameter in <code><a href="../reference/ws_subset.html">ws_subset()</a></code>.
+Al;ternatively you set it manually, and keep track of the gridded file
+location yourself in all your scripts.</p>
+</div>
+<div class="section level3">
 <h3 id="single-pixel-location-download">Single pixel location download<a class="anchor" aria-label="anchor" href="#single-pixel-location-download"></a>
 </h3>
 <p>Get world soil values for a single site using the following format,
-specifying coordinates as a pair of latitude, longitude coordinates.
-Here the call only extracts the top soil fraction of sand and silt (%
-weight) for one specific location.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
-<span>    site <span class="op">=</span> <span class="st">"HWSD"</span>,</span>
-<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">34</span>, <span class="op">-</span><span class="fl">81</span><span class="op">)</span>,</span>
-<span>    param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"T_SAND"</span>,<span class="st">"T_SILT"</span><span class="op">)</span></span>
+specifying coordinates as a pair of longitude, latitude coordinates
+(longitude, latitude). Here the call only extracts the top soil (layer =
+“D1”) fraction of sand and silt (% weight) for one specific location.
+Note that unlike HWSD v1.2 as available through the ORNL DAAC API the
+new version of the database has seven layers (D1 - D7) instead of just a
+top soil and sub-soil layer.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
+<span>    site <span class="op">=</span> <span class="st">"HWSD_V2"</span>,</span>
+<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">81</span>, <span class="fl">34</span><span class="op">)</span>,</span>
+<span>    param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SAND"</span>,<span class="st">"SILT"</span><span class="op">)</span>,</span>
+<span>    layer <span class="op">=</span> <span class="st">"D1"</span>,</span>
+<span>    version <span class="op">=</span> <span class="st">"2.0"</span>,</span>
+<span>    ws_path <span class="op">=</span> <span class="st">"/your/full/path"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>At this location we have a top soil fraction of sand of 78% weight
 and a silt fraction of 12 % weight! Data are returned as tidy data
 frames including basic meta-data of the query for later subsetting.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">values</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   site parameter latitude longitude value</span></span>
-<span><span class="co">#&gt; 1 HWSD    T_SAND    33.95    -81.05    78</span></span>
-<span><span class="co">#&gt; 2 HWSD    T_SILT    33.95    -81.05    12</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 5</span></span></span>
+<span><span class="co">#&gt;   value latitude longitude site  parameter</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    50       34       -<span style="color: #BB0000;">81</span> HWSD  SAND     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    24       34       -<span style="color: #BB0000;">81</span> HWSD  SILT</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="gridded-data">Gridded data<a class="anchor" aria-label="anchor" href="#gridded-data"></a>
 </h3>
-<p>You can grab gridded data by specifying a bounding box c(lat, lon,
-lat, lon) defined by a bottom left and top right coordinates. Here the
-call only extracts the top soil fraction of sand (%).</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">t_sand</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
-<span>    site <span class="op">=</span> <span class="st">"HWSD"</span>,</span>
-<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="op">-</span><span class="fl">81</span>, <span class="fl">34</span>, <span class="op">-</span><span class="fl">80</span><span class="op">)</span>,</span>
-<span>    param <span class="op">=</span> <span class="st">"T_SAND"</span>,</span>
-<span>    path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    internal <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">t_sand</span><span class="op">)</span></span></code></pre></div>
-<p><img src="hwsdr-vignette_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p>You can grab gridded data by specifying a bounding box c(lon, lat,
+lon, lat) defined by a bottom left and top right coordinates. Here the
+call only extracts the top soil (D1 layer) fraction of sand (%).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  sand <span class="ot">&lt;-</span> <span class="fu">ws_subset</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ws_subset</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">param =</span> <span class="st">"SAND"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">layer =</span> <span class="st">"D1"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">version =</span> <span class="st">"2.0"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ws_path =</span> <span class="fu">Sys.getenv</span>(<span class="st">"WS_PATH"</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ws_path = "/your/full/path",</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">internal =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sand</span><span class="op">)</span></span></code></pre></div>
+<p><img src="hwsdr-v2-vignette_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Alternatively you can use <code>sf</code> bounding box
 (<code>st_bbox()</code>) function output to define an extent over which
 you want to extract gridded data. The structure of the function also
 allows for pipes to be used.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">st_sf</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
 <span>                geom <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html" class="external-link">st_sfc</a></span><span class="op">(</span></span>
 <span>                  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html" class="external-link">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">34</span>, <span class="op">-</span><span class="fl">81</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -164,12 +215,17 @@ allows for pipes to be used.</p>
 <span></span>
 <span>  <span class="va">t_sand</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">%&gt;%</span></span>
 <span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>    <span class="fu"><a href="../reference/ws_subset.html">ws_subset</a></span><span class="op">(</span>param <span class="op">=</span> <span class="st">"T_SAND"</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
+<span>      version <span class="op">=</span> <span class="st">"2.0"</span>,</span>
+<span>      param <span class="op">=</span> <span class="st">"SAND"</span>,</span>
+<span>      layer <span class="op">=</span> <span class="st">"D1"</span>,</span>
+<span>      ws_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"WS_PATH"</span><span class="op">)</span></span>
+<span>      <span class="op">)</span></span></code></pre></div>
 <p>This call gives an equivalent dataset as above, as shown in the
 plot.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">t_sand</span><span class="op">)</span></span></code></pre></div>
-<p><img src="hwsdr-vignette_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sand</span><span class="op">)</span></span></code></pre></div>
+<p><img src="hwsdr-v2-vignette_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
 </div>
   </div>

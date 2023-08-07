@@ -40,6 +40,9 @@ disk."><meta name="twitter:card" content="summary"></head><body data-spy="scroll
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/hwsdr-v2-vignette.html">hwsdr v2.0 functionality</a>
+    </li>
+    <li>
       <a href="../articles/hwsdr-vignette.html">hwsdr functionality</a>
     </li>
   </ul></li>
@@ -83,7 +86,8 @@ disk.</p>
 <span>  ws_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"ws_db"</span><span class="op">)</span>,</span>
 <span>  internal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  rate <span class="op">=</span> <span class="fl">0.1</span>,</span>
-<span>  version <span class="op">=</span> <span class="fl">1.2</span></span>
+<span>  version <span class="op">=</span> <span class="fl">1.2</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -133,6 +137,11 @@ queries to avoid bouncing because of rate limitations</p></dd>
 package will query the ORNL DAAC v1.2 via their API. If specifying the
 later version (2.0) it will download or require the gridded spatial data
 in addition to the included HWSD v2.0 database with soil parameters.</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>verbose output during processing, only covers the internal
+use of the ws_download() function for HWSD v2.0 data</p></dd>
 
 </dl></div>
     <div id="value">
