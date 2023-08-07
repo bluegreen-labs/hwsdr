@@ -4,18 +4,21 @@
 #' to a desired output path for subsetting.
 #' 
 #' When an existing path is used which is not the temporary directory
-#' an environmental variable WS_PATH will be set. This variable will
-#' override the default temporary directory if it exists. This allows
-#' the gridded data to be stored elsewhere and be forgotten (while using the
-#' {hwsdr} package for HWSD v2.0).
+#' an environmental variable WS_PATH can be set by creating an ~/.Renviron file
+#' using usethis::edit_r_environ() and entering the path as:
 #' 
-#' Should you delete the gridded file, than it can be downloaded again but
-#' the environmental variable should be set again using the new_path = TRUE
-#' flag.
+#' WS_PATH = "/your/full/path"
+#' 
+#' This variable will override the default temporary directory if it exists.
+#' This allows the gridded data to be stored elsewhere and be forgotten 
+#' (while using the {hwsdr} package for HWSD v2.0).
+#' 
+#' Should you delete the gridded file, the environmental variable should be
+#' altered and set again by editting the ~/.Renviron file to a new location.
 #'
 #' @param ws_path the path / directory where to store the HWSD v2.0 database
-#' @param new_path update the path, i.e. dowload data to a new local
-#'  location (logical, default FALSE)
+#' @param verbose verbose messaging of downloading and managing the gridded
+#'  data file
 #'
 #' @return current data path
 #' @export
@@ -31,7 +34,7 @@
 #'  # download the same data to a specific
 #'  # directory (which should exist)
 #'  ws_download(
-#'  ws_path = "~/my_path"
+#'   ws_path = "~/my_path"
 #'  )
 #'  
 #'  # download the same data to a specific
@@ -39,27 +42,26 @@
 #'  # update the environmental variable
 #'  ws_download(
 #'  ws_path = "~/my_path",
-#'  new_path = TRUE
+#'  verbose = TRUE
 #'  )
 #' }
 
 ws_download <- function(
     ws_path = file.path(tempdir(), "ws_db"),
-    new_path = FALSE
+    verbose = FALSE
 ) {
   
   # check if environmental variable is set
   # if so use dir as overriding location
-  if(Sys.getenv("WS_PATH") != "" & !new_path ) {
+  if(Sys.getenv("WS_PATH") != "") {
     ws_path <- Sys.getenv("WS_PATH")
   }
   
   if (ws_path == file.path(tempdir(), "ws_db")) {
     
-    message(
-      sprintf(
-        "Creating temporary HWSD v2.0 files at:\n %s", ws_path )
-    )
+    if(verbose) {
+      message("Creating temporary HWSD v2.0 directory!")
+    }
     
     # create storage path
     if (!dir.exists(ws_path)) {
@@ -69,17 +71,33 @@ ws_download <- function(
   } else {
     
     if (!dir.exists(ws_path)) {
-      stop(
-        "Database directory does not exist, please create the directory first!"
-      )
+      
+      if(verbose){
+        # verbose messaging
+        message("HWSD v2.0 grid file location does not exist!")
+        if(Sys.getenv("WS_PATH") != ""){
+          message("-- path was read from .Renviron overriding function value")
+          message("-- Change the .Renviron to alter the grid file location")
+        }  
+      }
+      
+      # formal stop
+      stop("Non existing directory for grid file")
     } else {
 
-      if(Sys.getenv("WS_PATH") == "" | new_path) {
-        Sys.setenv("WS_PATH" = ws_path)  
-      }
-            
       if (file.exists(file.path(ws_path, "HWSD2.bil"))) {
-        message("Grid file exists, skipping download!")
+        
+        if (verbose) {
+          if(Sys.getenv("WS_PATH") != ""){
+            message("Path was read from .Renviron, overriding function value!")
+          }
+          message("Grid file exists, skipping download.")
+          message(
+            sprintf("Use the '%s' path in your ws_subset() calls!", ws_path)
+            )
+        }
+        
+        # return path
         return(ws_path)
       }
     }
@@ -109,12 +127,10 @@ ws_download <- function(
     )
   )
   
-  message(
-    sprintf(
-      "Saving HWSD v2.0 files in at:\n %s", ws_path )
-  )
-  
-  # exit statement
-  message("Downloaded HWSD v2.0 files")
+  if (verbose) {
+    message("Downloaded HWSD v2.0 grid file")
+    message(sprintf("Use the '%s' path in your ws_subset() calls!", ws_path))
+  }
+    
   return(ws_path)
 }
