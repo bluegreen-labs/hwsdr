@@ -1,7 +1,7 @@
 citHeader("To cite hwsdr in publications use:")
 
-citEntry(
-  entry = "Misc",
+bibentry(
+  bibstyle = "Misc",
   title = "The hwsdr package: an interface to ORNL DAAC HWSD API endpoints",
   author = c(as.person("Koen Hufkens")),
   year = "2021",
