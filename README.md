@@ -1,7 +1,7 @@
 # hwsdr
 
 [![R-CMD-check](https://github.com/bluegreen-labs/hwsdr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bluegreen-labs/hwsdr/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/gh/bluegreen-labs/hwsdr/branch/main/graph/badge.svg?token=GQ2TENDJP6)](https://codecov.io/gh/bluegreen-labs/hwsdr)
+[![codecov](https://codecov.io/gh/bluegreen-labs/hwsdr/branch/main/graph/badge.svg?token=GQ2TENDJP6)](https://app.codecov.io/gh/bluegreen-labs/hwsdr)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/hwsdr)](https://cran.r-project.org/package=hwsdr)
 [![downloads](https://cranlogs.r-pkg.org/badges/grand-total/hwsdr)](https://cranlogs.r-pkg.org/badges/grand-total/hwsdr)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6527648.svg)](https://doi.org/10.5281/zenodo.6527648)
