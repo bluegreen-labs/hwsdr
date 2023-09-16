@@ -14,3 +14,4 @@
 ^LICENSE$
 ^.*-logo\..*$
 ^\.github$
+^CRAN-SUBMISSION$
