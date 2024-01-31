@@ -10,6 +10,7 @@ Programmatic interface to the Harmonized World Soil Database 'HWSD' web services
 
 ## How to cite this package in your article
 
+> [!important]
 > Koen Hufkens. (2022). bluegreen-labs/hwsdr: CRAN release (v1.0). Zenodo. https://doi.org/10.5281/zenodo.6527648
 
 ## Installation
