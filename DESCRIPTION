@@ -34,5 +34,5 @@ Suggests:
     covr,
     testthat
 VignetteBuilder: knitr
-URL: https://github.com/bluegreen-labs/hwsdr
+URL: https://github.com/bluegreen-labs/hwsdr, https://bluegreen-labs.github.io/hwsdr/
 BugReports: https://github.com/bluegreen-labs/hwsdr/issues
