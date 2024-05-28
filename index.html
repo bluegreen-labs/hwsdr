@@ -19,11 +19,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><!-- ropensci --><link href="bglabs.css" rel="stylesheet">
 <meta property="og:title" content="Interface to the HWSD Web Services">
-<meta property="og:description" content="Programmatic interface to the Harmonized World Soil Database 
-    HWSD web services (&lt;https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247&gt;).
-    Allows for easy downloads of HWSD soil data directly to your R workspace 
-    or your computer. Routines for both single pixel data downloads and
-    gridded data are provided.">
+<meta property="og:description" content="Programmatic interface to the Harmonized World Soil Database HWSD web services (&lt;https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247&gt;). Allows for easy downloads of HWSD soil data directly to your R workspace or your computer. Routines for both single pixel data downloads and gridded data are provided.">
 <meta name="twitter:card" content="summary">
 </head>
 <body data-spy="scroll" data-target="#toc">
@@ -148,7 +144,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
 <span>    site <span class="op">=</span> <span class="st">"HWSD"</span>,</span>
-<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">34</span>, <span class="op">-</span><span class="fl">81</span><span class="op">)</span>,</span>
+<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">81</span>, <span class="fl">34</span><span class="op">)</span>,</span>
 <span>    param <span class="op">=</span> <span class="st">"ALL"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>

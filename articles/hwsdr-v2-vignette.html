@@ -95,7 +95,7 @@
                         <h4 data-toc-skip class="author">Koen
 Hufkens</h4>
             
-            <h4 data-toc-skip class="date">2024-02-04</h4>
+            <h4 data-toc-skip class="date">2024-05-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bluegreen-labs/hwsdr/blob/HEAD/vignettes/hwsdr-v2-vignette.Rmd" class="external-link"><code>vignettes/hwsdr-v2-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>hwsdr-v2-vignette.Rmd</code></div>
@@ -178,11 +178,9 @@ and a silt fraction of 12 % weight! Data are returned as tidy data
 frames including basic meta-data of the query for later subsetting.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">values</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 5</span></span></span>
-<span><span class="co">#&gt;   value latitude longitude site  parameter</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    50       34       -<span style="color: #BB0000;">81</span> HWSD  SAND     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    24       34       -<span style="color: #BB0000;">81</span> HWSD  SILT</span></span></code></pre></div>
+<span><span class="co">#&gt;   value latitude longitude site parameter</span></span>
+<span><span class="co">#&gt; 1    50       34       -81 HWSD      SAND</span></span>
+<span><span class="co">#&gt; 2    24       34       -81 HWSD      SILT</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="gridded-data">Gridded data<a class="anchor" aria-label="anchor" href="#gridded-data"></a>
