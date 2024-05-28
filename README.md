@@ -57,7 +57,7 @@ Get world soil values for a single site using the following format, specifying c
 ``` r
 all <- ws_subset(
     site = "HWSD",
-    location = c(34, -81),
+    location = c(-81, 34),
     param = "ALL"
   )
 ```
