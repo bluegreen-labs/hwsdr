@@ -241,7 +241,8 @@ ws_subset <- function(
             terra::subst(
               c,
               from = hwsd2$HWSD2_SMU_ID,
-              to = hwsd2[par]
+              to = hwsd2[par],
+              others = NA
             )
           )
           
