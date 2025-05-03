@@ -1,3 +1,7 @@
+# hwsdr 1.2
+
+- substitute default behaviour seems to retain indices, this is now removed
+
 # hwsdr 1.1
 
 - removing {raster} dependencies for {terra}
