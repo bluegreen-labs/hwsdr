@@ -52,7 +52,7 @@ library("hwsdr")
 
 #### Single pixel location download
 
-Get world soil values for a single site using the following format, specifying coordinates as a pair of latitude, longitude coordinates. Here all available soil layers are queried.
+Get world soil values for a single site using the following format, specifying coordinates as a pair of longitude and latitude coordinates. Here all available soil layers are queried.
 
 ``` r
 all <- ws_subset(
@@ -64,12 +64,12 @@ all <- ws_subset(
 
 #### Gridded data
 
-You can download gridded data by specifying a bounding box c(lat, lon, lat, lon) defined by a bottom left and top right coordinates. Here the call only extracts the top soil fraction of sand (% weight).
+You can download gridded data by specifying a bounding box c(lon, lat, lon, lat) defined by a bottom left and top right coordinates. Here the call only extracts the top soil fraction of sand (% weight).
 
 ``` r
 t_sand <- ws_subset(
     site = "HWSD",
-    location = c(32, -81, 34, -80),
+    location = c(-81, 32, -80, 34),
     param = "T_SAND",
     path = tempdir(),
     internal = TRUE
@@ -116,7 +116,7 @@ You can grab gridded data by specifying a bounding box c(lon, lat, lon, lat) def
 
 ``` r
 sand <- ws_subset(
-    location = c(32, -81, 34, -80),
+    location = c(-81, 32, -80, 34),
     param = "SAND",
     layer = "D1",
     version = "2.0",

@@ -231,7 +231,14 @@ ws_subset <- function(
           )
           
           # set the extent of the subset
-          e <- terra::ext(location)
+          e <- terra::ext(
+            c(
+              location[1],
+              location[3],
+              location[2],
+              location[4]
+              )
+          )
           
           # crop the full image to extent
           c <- terra::crop(ids, e)

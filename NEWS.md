@@ -1,6 +1,7 @@
 # hwsdr 1.2
 
 - substitute default behaviour seems to retain indices, this is now removed
+- correct extent of geospatial subsets + clarification in README
 
 # hwsdr 1.1
 
