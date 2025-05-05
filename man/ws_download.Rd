@@ -28,7 +28,7 @@ WS_PATH = "/your/full/path"
 
 This variable will override the default temporary directory if it exists.
 This allows the gridded data to be stored elsewhere and be forgotten 
-(while using the {hwsdr} package for HWSD v2.0).
+(while using the 'hwsdr' package for HWSD v2.0).
 
 Should you delete the gridded file, the environmental variable should be
 altered and set again by editting the ~/.Renviron file to a new location.
