@@ -140,7 +140,7 @@
 <div class="section level4">
 <h4 id="single-pixel-location-download">Single pixel location download<a class="anchor" aria-label="anchor" href="#single-pixel-location-download"></a>
 </h4>
-<p>Get world soil values for a single site using the following format, specifying coordinates as a pair of latitude, longitude coordinates. Here all available soil layers are queried.</p>
+<p>Get world soil values for a single site using the following format, specifying coordinates as a pair of longitude and latitude coordinates. Here all available soil layers are queried.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
 <span>    site <span class="op">=</span> <span class="st">"HWSD"</span>,</span>
@@ -151,11 +151,11 @@
 <div class="section level4">
 <h4 id="gridded-data">Gridded data<a class="anchor" aria-label="anchor" href="#gridded-data"></a>
 </h4>
-<p>You can download gridded data by specifying a bounding box c(lat, lon, lat, lon) defined by a bottom left and top right coordinates. Here the call only extracts the top soil fraction of sand (% weight).</p>
+<p>You can download gridded data by specifying a bounding box c(lon, lat, lon, lat) defined by a bottom left and top right coordinates. Here the call only extracts the top soil fraction of sand (% weight).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">t_sand</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
 <span>    site <span class="op">=</span> <span class="st">"HWSD"</span>,</span>
-<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="op">-</span><span class="fl">81</span>, <span class="fl">34</span>, <span class="op">-</span><span class="fl">80</span><span class="op">)</span>,</span>
+<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">81</span>, <span class="fl">32</span>, <span class="op">-</span><span class="fl">80</span>, <span class="fl">34</span><span class="op">)</span>,</span>
 <span>    param <span class="op">=</span> <span class="st">"T_SAND"</span>,</span>
 <span>    path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    internal <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -203,7 +203,7 @@
 <p>You can grab gridded data by specifying a bounding box c(lon, lat, lon, lat) defined by a bottom left and top right coordinates. Here the call only extracts the top soil (D1 layer) fraction of sand (%).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sand</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ws_subset.html">ws_subset</a></span><span class="op">(</span></span>
-<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="op">-</span><span class="fl">81</span>, <span class="fl">34</span>, <span class="op">-</span><span class="fl">80</span><span class="op">)</span>,</span>
+<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">81</span>, <span class="fl">32</span>, <span class="op">-</span><span class="fl">80</span>, <span class="fl">34</span><span class="op">)</span>,</span>
 <span>    param <span class="op">=</span> <span class="st">"SAND"</span>,</span>
 <span>    layer <span class="op">=</span> <span class="st">"D1"</span>,</span>
 <span>    version <span class="op">=</span> <span class="st">"2.0"</span>,</span>
